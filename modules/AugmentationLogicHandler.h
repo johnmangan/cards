@@ -4,6 +4,7 @@ namespace cards {
 #define AUGMENTATION_LOGIC_HANDLER_H_
 
 #include <string>
+#include <vector>
 
 class AugmentationLogicHandler
 {
