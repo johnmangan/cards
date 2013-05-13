@@ -3,7 +3,7 @@ namespace cards {
 #ifndef SEARCH_LOGIC_HANDLER_H_
 #define SEARCH_LOGIC_HANDLER_H_
 
-#include <list>
+#include <vector>
 #include <map>
 #include <string>
 
@@ -25,7 +25,7 @@ public:
      * thus all weights are relative to the others provided.
      */
 
-    virtual std::list< std::string >
+    virtual std::vector< std::string >
     getFilepaths( std::map< std::string, int > metadataWeights, double percent = 1.0 ) = 0;
 }
 
