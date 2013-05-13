@@ -9,15 +9,33 @@ class AugmentationLogicHandler
 {
 public:
 
+    // Asset
     virtual void
-    createAsset( std::string assetName, std::string filepath ) = 0;
+    createAsset( std::string assetName ) = 0;
 
     virtual void
     removeAsset( std::string assetName ) = 0;
 
     virtual void
-    updateAsset( std::string assetName, std::string filepath ) = 0;
+    renameAsset( std::string oldAssetName, std::string newAssetName ) = 0;
 
+    // Filepaths to different Levels Of Detail
+    virtual void
+    addLevelOfDetail( std::string assetName, int lod, std::string filepath );
+
+    virtual void
+    removeLevelOfDetail( std::string assetName, int lod );
+
+    virtual void
+    updateLevelOfDetail( std::string assetName, int lod, std::string filepath );
+
+    virtual void
+    removeFilepath( std::string filepath );
+
+    virtual std::vector< std::string >
+    viewLevelsOfDetail( std::string assetName );
+
+    // Augmenting Assets with Metadata
     virtual void
     augmentAsset( std::string assetName, std::string metadataName ) = 0;
 
