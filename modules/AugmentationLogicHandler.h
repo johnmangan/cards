@@ -21,19 +21,19 @@ public:
 
     // Filepaths to different Levels Of Detail
     virtual void
-    addLevelOfDetail( std::string assetName, int lod, std::string filepath );
+    addLevelOfDetail( std::string assetName, int lod, std::string filepath ) = 0;
 
     virtual void
-    removeLevelOfDetail( std::string assetName, int lod );
+    removeLevelOfDetail( std::string assetName, int lod ) = 0;
 
     virtual void
-    updateLevelOfDetail( std::string assetName, int lod, std::string filepath );
+    updateLevelOfDetail( std::string assetName, int lod, std::string filepath ) = 0;
 
     virtual void
-    removeFilepath( std::string filepath );
+    removeFilepath( std::string filepath ) = 0;
 
     virtual std::vector< std::string >
-    viewLevelsOfDetail( std::string assetName );
+    viewLevelsOfDetail( std::string assetName ) = 0;
 
     // Augmenting Assets with Metadata
     virtual void
