@@ -25,9 +25,6 @@ public:
      * thus all weights are relative to the others provided.
      */
 
-    // TODO: add in support for returning based on top percentile of hits,
-    //       or based on a minimum total weight threshold, or both
-
     virtual std::list< std::string >
     getFilepaths( std::map< std::string, int > metadataWeights, double percent = 1.0 ) = 0;
 }
