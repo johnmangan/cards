@@ -5,7 +5,7 @@ namespace cards {
 
 #include <string>
 
-class RequestLogicHandler
+class AugmentationLogicHandler
 {
 public:
 
