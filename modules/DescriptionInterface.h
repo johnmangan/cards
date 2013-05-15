@@ -1,12 +1,12 @@
 namespace cards {
 
-#ifndef AUGMENTATION_LOGIC_HANDLER_H_
-#define AUGMENTATION_LOGIC_HANDLER_H_
+#ifndef DESCRIPTION_INTERFACE_H_
+#define DESCRIPTION_INTERFACE_H_
 
 #include <string>
 #include <vector>
 
-class AugmentationLogicHandler
+class IDescription
 {
 public:
 
@@ -44,7 +44,7 @@ public:
     unaugmentAsset( std::string assetName, std::string metadataName ) = 0;
 }
 
-#endif /*AUGMENTATION_LOGIC_HANDLER_H_*/
+#endif /*DESCRIPTION_INTERFACE_H_*/
 
 }
 

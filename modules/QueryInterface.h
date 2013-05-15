@@ -1,13 +1,13 @@
 namespace cards {
 
-#ifndef SEARCH_LOGIC_HANDLER_H_
-#define SEARCH_LOGIC_HANDLER_H_
+#ifndef QUERY_INTERFACE_H_
+#define QUERY_INTERFACE_H_
 
 #include <vector>
 #include <map>
 #include <string>
 
-class SearchLogicHandler
+class IQuery
 {
 public:
 
@@ -29,7 +29,7 @@ public:
     getFilepaths( std::map< std::string, int > metadataWeights, double percent = 1.0 ) = 0;
 }
 
-#endif /*SEARCH_LOGIC_HANDLER_H_*/
+#endif /*QUERY_INTERFACE_H_*/
 
 }
 
