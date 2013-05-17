@@ -11,8 +11,8 @@ namespace cards {
 class RankedSearch
 {
 public:
-    virtual std::map< AssetTag, int >
-    searchAndRankAssets( std::map< MetadataTag, int > metadataWeights ) = 0;
+    virtual AssetTag
+    topRankedAsset( std::map< MetadataTag, int > metadataWeights ) = 0;
 }
 
 #endif /*RANKED_SEARCH_H_*/

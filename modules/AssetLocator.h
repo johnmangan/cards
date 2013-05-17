@@ -12,7 +12,7 @@ class AssetLocator
 public:
 
     virtual std::string
-    getAssetFilepath(AssetTag assetTag) = 0;
+    getFilepath(AssetTag assetTag) = 0;
 
     virtual void
     addAsset( AssetTag assetTag, std::string location ) = 0;

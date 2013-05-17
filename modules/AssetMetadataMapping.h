@@ -12,7 +12,7 @@ class AssetMetadataMapping
 {
 public:
     virtual std::set< AssetTag >
-    getAssetsIntersection( std::set< MetadataTag > metadataTags ) = 0;
+    describedAssets( std::set< MetadataTag > metadataTags ) = 0;
 
     virtual void
     augmentAsset( AssetTag assetTag, MetadataTag metadataTag ) = 0;
