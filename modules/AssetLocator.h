@@ -1,13 +1,13 @@
 namespace cards {
 
-#ifndef ASSETS_H_
-#define ASSETS_H_
+#ifndef ASSET_LOCATOR_H_
+#define ASSET_LOCATOR_H_
 
 #include <string>
 
 #include "AssetTag.h"
 
-class Assets
+class AssetLocator
 {
 public:
 
@@ -15,16 +15,16 @@ public:
     getAssetFilepath(AssetTag assetTag) = 0;
 
     virtual void
-    addAsset( AssetTag assetTag, std::string filepath ) = 0;
+    addAsset( AssetTag assetTag, std::string location ) = 0;
 
     virtual void
     removeAsset( AssetTag assetTag ) = 0;
 
     virtual void
-    updateFilepath( AssetTag assetTag, std::string filepath ) = 0;
+    updateLocation( AssetTag assetTag, std::string location ) = 0;
 }
 
-#endif /*ASSETS_H_*/
+#endif /*ASSET_LOCATOR_H_*/
 
 }
 
