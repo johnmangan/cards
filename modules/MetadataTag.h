@@ -8,11 +8,7 @@ namespace cards {
 class MetadataTag
 {
 public:
-    virtual MetadataTag
-    createMetadataTag(std::string name) = 0;
-
-private:
-    MetadataTag();
+    MetadataTag(std::string name);
 }
 
 #endif /*METADATA_TAG_H_*/

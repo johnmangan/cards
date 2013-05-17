@@ -8,11 +8,7 @@ namespace cards {
 class AssetTag
 {
 public:
-    virtual AssetTag
-    createAssetTag(std::string name) = 0;
-
-private:
-    AssetTag();
+    AssetTag(std::string name);
 }
 
 #endif /*ASSET_TAG_H_*/
