@@ -22,13 +22,13 @@ public:
 
     // Location Management
     virtual void
-    addLevelOfDetailLocation( AssetTag assetTag, int lod, std::string location );
+    addLevelOfDetailLocation( AssetTag assetTag, int lod, std::string location ) = 0;
 
     virtual void
-    removeLevelOfDetailLocation( AssetTag assetTag, int lod );
+    removeLevelOfDetailLocation( AssetTag assetTag, int lod ) = 0;
 
     virtual void
-    updateLevelOfDetailLocation( AssetTag assetTag, int lod, std::string location );
+    updateLevelOfDetailLocation( AssetTag assetTag, int lod, std::string location ) = 0;
 }
 
 #endif /*ASSET_LOCATOR_H_*/
