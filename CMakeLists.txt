@@ -1,0 +1,59 @@
+project(CARDS)
+cmake_minimum_required(VERSION 2.8)
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/../cmake)
+
+set(MODULE_INTERFACES_PATH ${CMAKE_SOURCE_DIR}/modules)
+set(IMPLEMENTATION_HEADER_PATH ${CMAKE_SOURCE_DIR}/include)
+set(IMPLEMENTATION_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
+
+set (EXTERNAL_MODULE_INTERFACES
+    ${MODULE_INTERFACES_PATH}/DescriptionInterface.h
+    ${MODULE_INTERFACES_PATH}/QueryInterface.h
+)
+
+set (INTERNAL_MODULE_INTERFACES
+    ${MODULE_INTERFACES_PATH}/AccessManager.h
+    ${MODULE_INTERFACES_PATH}/AssetLocator.h
+    ${MODULE_INTERFACES_PATH}/AssetMetadataMapping.h
+    ${MODULE_INTERFACES_PATH}/AssetTag.h
+    ${MODULE_INTERFACES_PATH}/MetadataTag.h
+    ${MODULE_INTERFACES_PATH}/RankedSearch.h
+)
+
+set (IMPLEMENTATION_HEADERS
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorImpl.h
+)
+
+set (IMPLEMENTATION_SOURCES
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorImpl.cpp
+)
+
+include_directories(${CMAKE_SOURCE_DIR}
+    ${MODULE_INTERFACES_PATH}
+    ${IMPLEMENTATION_HEADER_PATH}
+)
+
+add_library (cards SHARED
+    ${EXTERNAL_MODULE_INTERFACES}
+    ${INTERNAL_MODULE_INTERFACES}
+    ${IMPLEMENTATION_HEADERS}
+    ${IMPLEMENTATION_SOURCES}
+)
+
+# I am sure there is a better way to do this...
+set (INSTALL_LIBDIR "lib")
+if (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+    set (INSTALL_LIBDIR "lib64")
+endif (${CMAKE_SYSTEM_PROCESSOR} STREQUAL "x86_64")
+
+# install the library
+install (TARGETS cards
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/${INSTALL_LIBDIR}
+)
+
+# install the headers
+install (FILES ${EXTERNAL_INTERFACES}
+    DESTINATION ${SMAKE_INSTALL_PREFIX}/include
+)
+
