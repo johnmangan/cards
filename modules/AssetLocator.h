@@ -18,9 +18,6 @@ public:
 
     // Asset Management
     virtual void
-    addAsset( AssetTag assetTag ) = 0;
-
-    virtual void
     removeAsset( AssetTag assetTag ) = 0;
 
     // Location Management
