@@ -1,10 +1,10 @@
-namespace cards {
-
 #ifndef DESCRIPTION_INTERFACE_H_
 #define DESCRIPTION_INTERFACE_H_
 
 #include <string>
 #include <vector>
+
+namespace cards {
 
 class IDescription
 {
@@ -42,9 +42,9 @@ public:
 
     virtual void
     unaugmentAsset( std::string assetName, std::string metadataName ) = 0;
+};
+
 }
 
 #endif /*DESCRIPTION_INTERFACE_H_*/
-
-}
 

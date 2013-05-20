@@ -1,11 +1,11 @@
-namespace cards {
-
 #ifndef QUERY_INTERFACE_H_
 #define QUERY_INTERFACE_H_
 
 #include <vector>
 #include <map>
 #include <string>
+
+namespace cards {
 
 class IQuery
 {
@@ -27,9 +27,9 @@ public:
 
     virtual std::vector< std::string >
     getFilepaths( std::map< std::string, int > metadataWeights, double percent = 1.0 ) = 0;
+};
+
 }
 
 #endif /*QUERY_INTERFACE_H_*/
-
-}
 

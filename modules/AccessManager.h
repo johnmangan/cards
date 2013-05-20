@@ -1,11 +1,11 @@
-namespace cards {
-
 #ifndef ACCESS_MANAGER_H_
 #define ACCESS_MANAGER_H_
 
 #include "AssetLocator.h"
 #include "AssetMetadataMapping.h"
 #include "RankedSearch.h"
+
+namespace cards {
 
 class AccessManager
 {
@@ -18,9 +18,9 @@ public:
 
     virtual RankedSearch *
     RankedSearch( void ) = 0;
+};
+
 }
 
 #endif /*ACCESS_MANAGER_H_*/
-
-}
 
