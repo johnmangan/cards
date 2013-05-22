@@ -22,11 +22,11 @@ set (INTERNAL_MODULE_INTERFACES
 )
 
 set (IMPLEMENTATION_HEADERS
-    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorMemoryImpl.h
 )
 
 set (IMPLEMENTATION_SOURCES
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}

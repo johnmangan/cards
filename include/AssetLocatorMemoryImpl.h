@@ -1,5 +1,5 @@
-#ifndef ASSET_LOCATOR_IMPL_H_
-#define ASSET_LOCATOR_IMPL_H_
+#ifndef ASSET_LOCATOR_MEMORY_IMPL_H_
+#define ASSET_LOCATOR_MEMORY_IMPL_H_
 
 #include <map>
 #include <string>
@@ -10,7 +10,7 @@
 
 namespace cards {
 
-class AssetLocatorImpl : public AssetLocator
+class AssetLocatorMemoryImpl : public AssetLocator
 {
 public:
     // Query Functionality
@@ -39,5 +39,5 @@ protected:
 
 }
 
-#endif /*ASSET_LOCATOR_IMPL_H_*/
+#endif /*ASSET_LOCATOR_MEMORY_IMPL_H_*/
 

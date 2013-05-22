@@ -1,9 +1,9 @@
-#include <AssetLocatorImpl.h>
+#include <AssetLocatorMemoryImpl.h>
 
 namespace cards {
 
-/*virtual*/ AssetLocatorImpl::Locations
-AssetLocatorImpl::getFilepath( AssetTag* pAssetTag ) const
+/*virtual*/ AssetLocatorMemoryImpl::Locations
+AssetLocatorMemoryImpl::getFilepath( AssetTag* pAssetTag ) const
 {
     LocationsOfAsset::const_iterator it = mAssetLocations.find( pAssetTag );
 
@@ -14,14 +14,14 @@ AssetLocatorImpl::getFilepath( AssetTag* pAssetTag ) const
 
 // Asset Management
 /*virtual*/ void
-AssetLocatorImpl::removeAsset( AssetTag* pAssetTag )
+AssetLocatorMemoryImpl::removeAsset( AssetTag* pAssetTag )
 {
     mAssetLocations.erase( pAssetTag );
 }
 
 // Location Management
 /*virtual*/ void
-AssetLocatorImpl::addLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod, std::string location )
+AssetLocatorMemoryImpl::addLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod, std::string location )
 {
     Locations locations = mAssetLocations[ pAssetTag ];
 
@@ -35,7 +35,7 @@ AssetLocatorImpl::addLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lo
 }
 
 /*virtual*/ void
-AssetLocatorImpl::removeLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod )
+AssetLocatorMemoryImpl::removeLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod )
 {
     LocationsOfAsset::iterator it = mAssetLocations.find( pAssetTag );
 
@@ -49,7 +49,7 @@ AssetLocatorImpl::removeLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int
 }
 
 /*virtual*/ void
-AssetLocatorImpl::updateLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod, std::string location )
+AssetLocatorMemoryImpl::updateLevelOfDetailLocation( AssetTag* pAssetTag, unsigned int lod, std::string location )
 {
     LocationsOfAsset::iterator it = mAssetLocations.find( pAssetTag );
 
