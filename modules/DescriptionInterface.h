@@ -12,9 +12,6 @@ public:
 
     // Asset
     virtual void
-    createAsset( std::string assetName ) = 0;
-
-    virtual void
     removeAsset( std::string assetName ) = 0;
 
     virtual void
