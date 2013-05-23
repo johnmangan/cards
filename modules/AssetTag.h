@@ -8,7 +8,8 @@ namespace cards {
 class AssetTag
 {
 public:
-    AssetTag(std::string name);
+    virtual std::string
+    getName( void ) const = 0;
 
     virtual bool
     lessThan( AssetTag const& r ) const = 0;
