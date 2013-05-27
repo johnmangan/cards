@@ -15,21 +15,24 @@ public:
 
     // Query Functionality
     virtual Locations
-    getFilepath( AssetTag& assetTag ) = 0;
+    getFilepath( AssetTag* assetTag ) = 0;
 
     // Asset Management
     virtual void
-    removeAsset( AssetTag& assetTag ) = 0;
+    removeAsset( AssetTag* assetTag ) = 0;
 
     // Location Management
     virtual void
-    addLevelOfDetailLocation( AssetTag& assetTag, unsigned int lod, std::string location ) = 0;
+    addLevelOfDetailLocation( AssetTag* assetTag, unsigned int lod, std::string location ) = 0;
 
     virtual void
-    removeLevelOfDetailLocation( AssetTag& assetTag, unsigned int lod ) = 0;
+    removeLevelOfDetailLocation( AssetTag* assetTag, unsigned int lod ) = 0;
 
     virtual void
-    updateLevelOfDetailLocation( AssetTag& assetTag, unsigned int lod, std::string location ) = 0;
+    updateLevelOfDetailLocation( AssetTag* assetTag, unsigned int lod, std::string location ) = 0;
+
+    virtual void
+    removeLocation( std::string location ) = 0;
 };
 
 }

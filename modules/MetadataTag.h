@@ -8,13 +8,20 @@ namespace cards {
 class MetadataTag
 {
 public:
-    MetadataTag(std::string name);
+    virtual std::string
+    getName( void ) const = 0;
 
     virtual bool
-    lessThan ( MetadataTag const& r ) const = 0;
+    lessThan( MetadataTag const& r ) const = 0;
 
-    friend bool operator< ( MetadataTag& l, MetadataTag& r )
+    friend bool operator< ( MetadataTag const& l, MetadataTag const& r )
     { return l.lessThan( r ); }
+
+    struct MetadataTagComparator
+    {
+        bool operator() (MetadataTag* const&  l, MetadataTag* const& r) const
+        { return *l < *r; }
+    };
 };
 
 }
