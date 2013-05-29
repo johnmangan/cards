@@ -11,8 +11,11 @@ namespace cards {
 class AssetMetadataMapping
 {
 public:
-    virtual std::set< AssetTag*, AssetTag::AssetTagComparator >
-    describedAssets( std::set< MetadataTag*, MetadataTag::MetadataTagComparator > metadataTags ) = 0;
+    typedef std::set< AssetTag*, AssetTag::AssetTagComparator > AssetSet;
+    typedef std::set< MetadataTag*, MetadataTag::MetadataTagComparator > MetadataSet;
+
+    virtual AssetSet
+    describedAssets( MetadataSet metadataTags ) = 0;
 
     virtual void
     augmentAsset( AssetTag* assetTag, MetadataTag* metadataTag ) = 0;
