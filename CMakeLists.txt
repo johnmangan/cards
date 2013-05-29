@@ -51,6 +51,9 @@ set (INTERNAL_MODULE_INTERFACES
 set (IMPLEMENTATION_HEADERS
     ${IMPLEMENTATION_HEADER_PATH}/AccessManagerImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorMemoryImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabase.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabaseImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorSQLLiteDatabase.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetTagImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/DescriptionInterfaceImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/MetadataTagImpl.h
@@ -70,7 +73,9 @@ set (IMPLEMENTATION_SOURCES
 
 set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/AccessManagerImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorDatabaseImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorSQLLiteDatabase.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
