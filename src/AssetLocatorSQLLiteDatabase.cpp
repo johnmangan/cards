@@ -63,6 +63,8 @@ namespace cards
         
         sqlite3_finalize(statement);
       }
+
+      return results;
     }
 
     void 
