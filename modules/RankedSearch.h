@@ -3,16 +3,18 @@
 
 #include <map>
 
-#include "AssetTag.h"
-#include "MetadataTag.h"
+#include <AssetTag.h>
+#include <MetadataTag.h>
 
 namespace cards {
 
 class RankedSearch
 {
 public:
+    typedef std::map< MetadataTag*, int, MetadataTag::MetadataTagComparator > MetadataWeights;
+
     virtual AssetTag*
-    topRankedAsset( std::map< MetadataTag*, int, MetadataTag::MetadataTagComparator > metadataWeights, double percent ) = 0;
+    topRankedAsset( MetadataWeights metadataWeights, double percent ) = 0;
 };
 
 }

@@ -28,6 +28,7 @@ set (IMPLEMENTATION_HEADERS
     ${IMPLEMENTATION_HEADER_PATH}/DescriptionInterfaceImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/MetadataTagImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/QueryInterfaceImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/RankedSearchImpl.h
 )
 
 set (IMPLEMENTATION_SOURCES
@@ -37,6 +38,7 @@ set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/QueryInterfaceImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/RankedSearchImpl.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}
