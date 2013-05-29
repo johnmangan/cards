@@ -7,6 +7,7 @@
 
 #include "AssetTag.h"
 #include "AssetLocator.h"
+#include "AssetLocatorDatabase.h"
 
 namespace cards {
 
