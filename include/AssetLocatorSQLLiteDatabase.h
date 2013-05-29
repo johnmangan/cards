@@ -12,7 +12,6 @@ namespace cards
   public:
     AssetLocatorSQLLiteDatabase();
     AssetLocatorSQLLiteDatabase(std::string filename);
-    virtual ~AssetLocatorSQLLiteDatabase() {}
 
     virtual void 
     insert(std::string name, int lod, std::string location);
