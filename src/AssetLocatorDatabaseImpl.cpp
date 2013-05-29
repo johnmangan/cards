@@ -7,7 +7,7 @@ namespace cards {
       database = new AssetLocatorSQLLiteDatabase("AssetLocator.db");
     }
 
-    Locations
+    AssetLocator::Locations
     AssetLocatorDatabaseImpl::getFilepath( AssetTag* assetTag ) const
     {
       return database->query(assetTag->getName());
