@@ -1,4 +1,5 @@
 #include "AssetLocatorDatabaseImpl.h"
+#include "AssetLocatorSQLLiteDatabase.h"
 
 namespace cards {
     AssetLocatorDatabaseImpl::AssetLocatorDatabaseImpl()
