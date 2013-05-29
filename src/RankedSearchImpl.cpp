@@ -35,6 +35,10 @@ RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percen
         }
     }
 
+    // If we have an empty map, return NULL
+    if (metadataWeights.empty())
+        return NULL;
+
     // Created a vector of assets sorted by decreasing value
     std::vector< AssetValue > rankedAssets;
 
