@@ -17,9 +17,6 @@ public:
     virtual void
     removeAsset( std::string assetName );
 
-    virtual void
-    renameAsset( std::string oldAssetName, std::string newAssetName );
-
     // Filepaths to different Levels Of Detail
     virtual void
     addLevelOfDetail( std::string assetName, int lod, std::string location );
