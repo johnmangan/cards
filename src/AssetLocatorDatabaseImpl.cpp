@@ -9,7 +9,7 @@ namespace cards {
     Locations
     AssetLocatorDatabaseImpl::getFilepath( AssetTag* assetTag ) const
     {
-      database->query(assetTag->getName());
+      return database->query(assetTag->getName());
     }
 
     // Asset Management
