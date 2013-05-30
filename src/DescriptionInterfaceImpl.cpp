@@ -44,12 +44,6 @@ IDescriptionImpl::updateLevelOfDetail( std::string assetName, int lod, std::stri
     mAccessManager->getAssetLocator()->updateLevelOfDetailLocation( assetTag, lod, location );
 }
 
-/*virtual*/ void
-IDescriptionImpl::removeLocation( std::string location )
-{
-    mAccessManager->getAssetLocator()->removeLocation( location );
-}
-
 /*virtual*/ std::vector< std::string >
 IDescriptionImpl::viewLevelsOfDetail( std::string assetName )
 {

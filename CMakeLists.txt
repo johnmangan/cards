@@ -55,6 +55,7 @@ set (IMPLEMENTATION_HEADERS
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabase.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabaseImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorSQLLiteDatabase.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingMemoryImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetTagImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/DescriptionInterfaceImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/MetadataTagImpl.h
@@ -64,23 +65,15 @@ set (IMPLEMENTATION_HEADERS
 
 set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/AccessManagerImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorDatabaseImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorSQLLiteDatabase.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingMemoryImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/QueryInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/RankedSearchImpl.cpp
-)
-
-set (IMPLEMENTATION_SOURCES
-    ${IMPLEMENTATION_SOURCE_PATH}/AccessManagerImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorDatabaseImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorSQLLiteDatabase.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/QueryInterfaceImpl.cpp
 )
 
 set (UNIT_TEST_SOURCE
