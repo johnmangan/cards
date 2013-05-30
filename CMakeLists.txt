@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.8)
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 #SQLite Build
-set (SQLITE_SOURCE_DIR sqlite/cpp_prototype)
+set (SQLITE_SOURCE_DIR sqlite/src)
 
 # SQLITE
 set (SOURCES ${SQLITE_SOURCE_DIR}/sqlite3.c)
@@ -32,6 +32,8 @@ set(MODULE_INTERFACES_PATH ${CMAKE_SOURCE_DIR}/modules)
 set(IMPLEMENTATION_HEADER_PATH ${CMAKE_SOURCE_DIR}/include)
 set(IMPLEMENTATION_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 set(UNIT_TEST_SOURCE_PATH ${CMAKE_SOURCE_DIR}/test)
+set(UNIT_TEST_FRAMEWORK_SOURCE_PATH ${CMAKE_SOURCE_DIR}/test/src)
+set(UNIT_TEST_FRAMEWORK_HEADER_PATH ${CMAKE_SOURCE_DIR}/test/include)
 
 set (EXTERNAL_MODULE_INTERFACES
     ${MODULE_INTERFACES_PATH}/DescriptionInterface.h
@@ -85,9 +87,38 @@ set (UNIT_TEST_SOURCE
     ${UNIT_TEST_SOURCE_PATH}/main.cpp
 )
 
+set (UNIT_TEST_FRAMEWORK_SOURCES
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/collectoroutput.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/compileroutput.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/htmloutput.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/missing.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/source.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/suite.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/textoutput.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/time.cpp
+    ${UNIT_TEST_FRAMEWORK_SOURCE_PATH}/utils.cpp
+)
+
+set (UNIT_TEST_FRAMEWORK_HEADERS
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-assert.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-collectoroutput.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-compileroutput.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/config.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-htmloutput.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-output.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-source.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-suite.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-textoutput.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/cpptest-time.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/missing.h
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}/utils.h
+)
+
 include_directories(${CMAKE_SOURCE_DIR}
     ${MODULE_INTERFACES_PATH}
     ${IMPLEMENTATION_HEADER_PATH}
+    ${UNIT_TEST_FRAMEWORK_HEADER_PATH}
 )
 
 add_library (cards SHARED
@@ -102,6 +133,8 @@ add_executable (unit_test
 	${EXTERNAL_MODULE_INTERFACES}
         ${INTERNAL_MODULE_INTERFACES}
         ${IMPLEMENTATION_HEADERS}
+	${UNIT_TEST_FRAMEWORK_HEADERS}
+	${UNIT_TEST_FRAMEWORK_SOURCES}
 )
 
 target_link_libraries (unit_test cards sqlite3-shared pthread dl)
