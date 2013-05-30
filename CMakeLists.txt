@@ -5,11 +5,8 @@ cmake_minimum_required(VERSION 2.8)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+#SQLite Build
 set (SQLITE_SOURCE_DIR sqlite/cpp_prototype)
-
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # SQLITE
 set (SOURCES ${SQLITE_SOURCE_DIR}/sqlite3.c)
@@ -19,12 +16,14 @@ include_directories(${SQLITE_SOURCE_DIR})
 add_library (sqlite3-shared SHARED ${SOURCES} ${HEADERS})
 target_link_libraries(sqlite3-shared) 
 set_target_properties(sqlite3-shared PROPERTIES OUTPUT_NAME sqlite3)
-add_library (sqlite3-static STATIC ${SOURCES} ${HEADERS})
-target_link_libraries(sqlite3-static pthread dl)
-set_target_properties(sqlite3-static PROPERTIES OUTPUT_NAME sqlite3)
-add_executable(sqlite3-shell ${SQLITE_SOURCE_DIR}/shell.c ${SOURCES} ${HEADERS})
-target_link_libraries(sqlite3-shell pthread dl)
-set_target_properties(sqlite3-shell PROPERTIES OUTPUT_NAME sqlite3)
+
+#add_library (sqlite3-static STATIC ${SOURCES} ${HEADERS})
+#target_link_libraries(sqlite3-static pthread dl)
+#set_target_properties(sqlite3-static PROPERTIES OUTPUT_NAME sqlite3)
+
+#add_executable(sqlite3-shell ${SQLITE_SOURCE_DIR}/shell.c ${SOURCES} ${HEADERS})
+#target_link_libraries(sqlite3-shell pthread dl)
+#set_target_properties(sqlite3-shell PROPERTIES OUTPUT_NAME sqlite3)
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/../cmake)
@@ -51,6 +50,9 @@ set (INTERNAL_MODULE_INTERFACES
 set (IMPLEMENTATION_HEADERS
     ${IMPLEMENTATION_HEADER_PATH}/AccessManagerImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorMemoryImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabase.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabaseImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorSQLLiteDatabase.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingMemoryImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetTagImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/DescriptionInterfaceImpl.h
@@ -61,22 +63,15 @@ set (IMPLEMENTATION_HEADERS
 
 set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/AccessManagerImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorDatabaseImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorSQLLiteDatabase.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingMemoryImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/QueryInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/RankedSearchImpl.cpp
-)
-
-set (IMPLEMENTATION_SOURCES
-    ${IMPLEMENTATION_SOURCE_PATH}/AccessManagerImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp
-    ${IMPLEMENTATION_SOURCE_PATH}/QueryInterfaceImpl.cpp
 )
 
 set (UNIT_TEST_SOURCE

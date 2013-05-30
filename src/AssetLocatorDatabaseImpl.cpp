@@ -1,4 +1,5 @@
 #include "AssetLocatorDatabaseImpl.h"
+#include "AssetLocatorSQLLiteDatabase.h"
 
 namespace cards {
     AssetLocatorDatabaseImpl::AssetLocatorDatabaseImpl()
@@ -6,7 +7,7 @@ namespace cards {
       database = new AssetLocatorSQLLiteDatabase("AssetLocator.db");
     }
 
-    Locations
+    AssetLocator::Locations
     AssetLocatorDatabaseImpl::getFilepath( AssetTag* assetTag ) const
     {
       return database->query(assetTag->getName());

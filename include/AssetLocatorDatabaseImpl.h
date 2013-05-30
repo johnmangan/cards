@@ -7,6 +7,7 @@
 
 #include "AssetTag.h"
 #include "AssetLocator.h"
+#include "AssetLocatorDatabase.h"
 
 namespace cards {
 
@@ -15,7 +16,6 @@ class AssetLocatorDatabaseImpl : public AssetLocator
 public:
     //Constructor & Destructor
     AssetLocatorDatabaseImpl();
-    virtual ~AssetLocatorDatabaseImpl();
 
     // Query Functionality
     virtual Locations

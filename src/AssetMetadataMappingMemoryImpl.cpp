@@ -4,7 +4,7 @@
 
 namespace cards {
 
-/*virtual*/ AssetSet
+/*virtual*/ AssetMetadataMapping::AssetSet
 AssetMetadataMappingMemoryImpl::describedAssets( MetadataSet metadataTags )
 {
     AssetSet current_assets;
@@ -31,9 +31,9 @@ AssetMetadataMappingMemoryImpl::describedAssets( MetadataSet metadataTags )
             AssetSet intersection;
 
             std::set_intersection (current_assets.begin(), current_assets.end(),
-                masm_it->second.begin(), masm_it->second.end(), intersection.begin());
-
-            assets = intersection;
+                masm_it->second.begin(), masm_it->second.end(),
+                std::inserter(intersection,intersection.begin()));
+            current_assets = intersection;
         }
 
         // If we ever end up with 0 assets to intersect with, get out

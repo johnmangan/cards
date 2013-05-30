@@ -4,9 +4,6 @@
 #include "AssetLocatorDatabase.h"
 
 #include <sqlite3.h>
-#include <string>
-#include <vector>
-
 
 namespace cards
 {
@@ -15,7 +12,6 @@ namespace cards
   public:
     AssetLocatorSQLLiteDatabase();
     AssetLocatorSQLLiteDatabase(std::string filename);
-    virtual ~AssetLocatorSQLLiteDatabase();
 
     virtual void 
     insert(std::string name, int lod, std::string location);
