@@ -5,17 +5,24 @@
 
 namespace cards {
 
-class AccessManagerImpl
+class AccessManagerImpl : public AccessManager
 {
 public:
-    virtual AssetLocator *
-    getAssetLocator( void );
+    AccessManagerImpl();
 
-    virtual AssetMetadataMapping *
-    getAssetMetadataMapping( void );
+    virtual AssetLocator*
+    getAssetLocator( void ) const;
 
-    virtual RankedSearch *
-    getRankedSearch( void );
+    virtual AssetMetadataMapping*
+    getAssetMetadataMapping( void ) const;
+
+    virtual RankedSearch*
+    getRankedSearch( void ) const;
+
+private:
+    AssetLocator* mAssetLocator;
+    AssetMetadataMapping* mAssetMetadataMapping;
+    RankedSearch* mRankedSearch;
 };
 
 }

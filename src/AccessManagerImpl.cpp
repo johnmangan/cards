@@ -1,23 +1,34 @@
 #include <AccessManagerImpl.h>
 
+#include <AssetLocatorMemoryImpl.h>
+#include <AssetMetadataMappingMemoryImpl.h>
+#include <RankedSearchImpl.h>
+
 namespace cards {
 
-/*virtual*/ AssetLocator *
-AccessManagerImpl::getAssetLocator( void )
+AccessManagerImpl::AccessManagerImpl()
 {
-    return NULL;
+    mAssetLocator = new AssetLocatorMemoryImpl();
+    mAssetMetadataMapping = new AssetMetadataMappingMemoryImpl();
+    mRankedSearch = new RankedSearchImpl(this);
+}
+
+/*virtual*/ AssetLocator *
+AccessManagerImpl::getAssetLocator( void ) const
+{
+    return mAssetLocator;
 }
 
 /*virtual*/ AssetMetadataMapping *
-AccessManagerImpl::getAssetMetadataMapping( void )
+AccessManagerImpl::getAssetMetadataMapping( void ) const
 {
-    return NULL;
+    return mAssetMetadataMapping;
 }
 
 /*virtual*/ RankedSearch *
-AccessManagerImpl::getRankedSearch( void )
+AccessManagerImpl::getRankedSearch( void ) const
 {
-    return NULL;
+    return mRankedSearch;
 }
 
 }

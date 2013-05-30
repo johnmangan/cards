@@ -11,13 +11,13 @@ class AccessManager
 {
 public:
     virtual AssetLocator *
-    getAssetLocator( void ) = 0;
+    getAssetLocator( void ) const = 0;
 
     virtual AssetMetadataMapping *
-    getAssetMetadataMapping( void ) = 0;
+    getAssetMetadataMapping( void ) const = 0;
 
     virtual RankedSearch *
-    getRankedSearch( void ) = 0;
+    getRankedSearch( void ) const = 0;
 };
 
 }
