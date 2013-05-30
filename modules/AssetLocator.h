@@ -15,7 +15,7 @@ public:
 
     // Query Functionality
     virtual Locations
-    getFilepath( AssetTag* assetTag ) = 0;
+    getFilepath( AssetTag* assetTag ) const = 0;
 
     // Asset Management
     virtual void
@@ -30,9 +30,6 @@ public:
 
     virtual void
     updateLevelOfDetailLocation( AssetTag* assetTag, unsigned int lod, std::string location ) = 0;
-
-    virtual void
-    removeLocation( std::string location ) = 0;
 };
 
 }

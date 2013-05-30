@@ -27,9 +27,6 @@ public:
     virtual void
     updateLevelOfDetail( std::string assetName, int lod, std::string location );
 
-    virtual void
-    removeLocation( std::string location );
-
     virtual std::vector< std::string >
     viewLevelsOfDetail( std::string assetName );
 
