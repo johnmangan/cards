@@ -11,7 +11,10 @@ public:
         : mAssetLocator( assetLocator )
     {
         mClassMsg = std::string("Class: ") + className;
-
+        mAssetTag = new cards::AssetTagImpl( "foo" );
+        location0 = "bar0";
+        location1 = "bar1";
+        
         TEST_ADD(AssetLocatorTestSuite::addAndRetrieveLOD)
         TEST_ADD(AssetLocatorTestSuite::addAndRetrieveSecondLOD)
         TEST_ADD(AssetLocatorTestSuite::removeAndRetrieveLOD)
@@ -27,9 +30,9 @@ private:
 
     std::string mClassMsg;
     cards::AssetLocator* mAssetLocator;
-    cards::AssetTag* mAssetTag = new cards::AssetTagImpl( "foo" );
-    std::string location0 = "bar0";
-    std::string location1 = "bar1";
+    cards::AssetTag* mAssetTag;
+    std::string location0;
+    std::string location1;
 
     void addAndRetrieveLOD()
     {
