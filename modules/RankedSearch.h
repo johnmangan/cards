@@ -3,15 +3,22 @@
 
 #include <map>
 
+#include <AccessManager.h>
 #include <AssetTag.h>
 #include <MetadataTag.h>
 
 namespace cards {
 
+// Forward Declaration
+class AccessManager;
+
 class RankedSearch
 {
 public:
     typedef std::map< MetadataTag*, int, MetadataTag::MetadataTagComparator > MetadataWeights;
+
+    virtual void
+    setAccessManager( AccessManager const* accessManager ) = 0;
 
     virtual AssetTag*
     topRankedAsset( MetadataWeights metadataWeights, double percent ) = 0;

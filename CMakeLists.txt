@@ -78,6 +78,7 @@ set (IMPLEMENTATION_SOURCES
 
 set (UNIT_TEST_HEADERS
     ${UNIT_TEST_SOURCE_PATH}/test-assetlocator.hpp
+    ${UNIT_TEST_SOURCE_PATH}/test-accessmanager.hpp
 )
 
 set (UNIT_TEST_SOURCE
