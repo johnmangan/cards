@@ -13,73 +13,84 @@
 using namespace std;
 using namespace cards;
 
-// Tests compare asserts
-//
 class AssetLocatorTestSuite : public Test::Suite
 {
 public:
-	AssetLocatorTestSuite( AssetLocator* assetLocator, std::string className )
+    AssetLocatorTestSuite( AssetLocator* assetLocator, std::string className )
         : mAssetLocator( assetLocator )
-	{
-                mClassMsg = std::string("Class: ") + className;
-		TEST_ADD(AssetLocatorTestSuite::addAndRetrieveLOD)
-		TEST_ADD(AssetLocatorTestSuite::addAndRetrieveSecondLOD)
-		TEST_ADD(AssetLocatorTestSuite::removeAndRetrieveLOD)
-		TEST_ADD(AssetLocatorTestSuite::updateAndRetrieveLOD)
-	}
+    {
+        mClassMsg = std::string("Class: ") + className;
 
-        ~AssetLocatorTestSuite()
-        {
-            delete mAssetTag;
-        }	
+        TEST_ADD(AssetLocatorTestSuite::addAndRetrieveLOD)
+        TEST_ADD(AssetLocatorTestSuite::addAndRetrieveSecondLOD)
+        TEST_ADD(AssetLocatorTestSuite::removeAndRetrieveLOD)
+        TEST_ADD(AssetLocatorTestSuite::updateAndRetrieveLOD)
+        TEST_ADD(AssetLocatorTestSuite::removeToCleanupAsset)
+    }
+
+    ~AssetLocatorTestSuite()
+    {
+        delete mAssetTag;
+    }    
 private:
 
-        std::string mClassMsg;
-        AssetLocator* mAssetLocator;
-        AssetTag* mAssetTag = new AssetTagImpl( "foo" );
-        std::string location0 = "bar0";
-        std::string location1 = "bar1";
-	
-	void addAndRetrieveLOD()
-	{
-            mAssetLocator->addLevelOfDetailLocation( mAssetTag, 0, location0 );
+    std::string mClassMsg;
+    AssetLocator* mAssetLocator;
+    AssetTag* mAssetTag = new AssetTagImpl( "foo" );
+    std::string location0 = "bar0";
+    std::string location1 = "bar1";
 
-            AssetLocator::Locations expected;
-            expected.push_back( location0 );
+    void addAndRetrieveLOD()
+    {
+        mAssetLocator->addLevelOfDetailLocation( mAssetTag, 0, location0 );
 
-            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-	}
+        AssetLocator::Locations expected;
+        expected.push_back( location0 );
 
-        void addAndRetrieveSecondLOD()
-        {
-            mAssetLocator->addLevelOfDetailLocation( mAssetTag, 1, location1 );
+        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
+    }
 
-            AssetLocator::Locations expected;
-            expected.push_back( location0 );
-            expected.push_back( location1 );
+    void addAndRetrieveSecondLOD()
+    {
+        mAssetLocator->addLevelOfDetailLocation( mAssetTag, 1, location1 );
 
-            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-        }
+        AssetLocator::Locations expected;
+        expected.push_back( location0 );
+        expected.push_back( location1 );
 
-        void removeAndRetrieveLOD()
-        {
-            mAssetLocator->removeLevelOfDetailLocation( mAssetTag, 1 );
+        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
+    }
 
-            AssetLocator::Locations expected;
-            expected.push_back( location0 );
+    void removeAndRetrieveLOD()
+    {
+        mAssetLocator->removeLevelOfDetailLocation( mAssetTag, 1 );
 
-            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-        }
+        AssetLocator::Locations expected;
+        expected.push_back( location0 );
 
-        void updateAndRetrieveLOD()
-        {
-            mAssetLocator->updateLevelOfDetailLocation( mAssetTag, 0, location1 );
+        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
+    }
 
-            AssetLocator::Locations expected;
-            expected.push_back( location1 );
+    void updateAndRetrieveLOD()
+    {
+        mAssetLocator->updateLevelOfDetailLocation( mAssetTag, 0, location1 );
 
-            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-        }
+        AssetLocator::Locations expected;
+        expected.push_back( location1 );
+
+        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
+    }
+
+    void removeToCleanupAsset()
+    {
+        TEST_ASSERT_MSG( !mAssetLocator->getFilepath( mAssetTag ).empty(),
+            (mClassMsg + ":\t Missing Asset").c_str() );
+
+        mAssetLocator->removeAsset( mAssetTag );
+
+        TEST_ASSERT_MSG( mAssetLocator->getFilepath( mAssetTag ).empty(),
+            (mClassMsg + ":\t Failed to remove asset").c_str() );
+    }
 };
 
 enum OutputType
