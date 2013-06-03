@@ -18,9 +18,10 @@ using namespace cards;
 class AssetLocatorTestSuite : public Test::Suite
 {
 public:
-	AssetLocatorTestSuite( AssetLocator* assetLocator )
+	AssetLocatorTestSuite( AssetLocator* assetLocator, std::string className )
         : mAssetLocator( assetLocator )
 	{
+                mClassMsg = std::string("Class: ") + className;
 		TEST_ADD(AssetLocatorTestSuite::addAndRetrieveLOD)
 		TEST_ADD(AssetLocatorTestSuite::addAndRetrieveSecondLOD)
 		TEST_ADD(AssetLocatorTestSuite::removeAndRetrieveLOD)
@@ -33,6 +34,7 @@ public:
         }	
 private:
 
+        std::string mClassMsg;
         AssetLocator* mAssetLocator;
         AssetTag* mAssetTag = new AssetTagImpl( "foo" );
         std::string location0 = "bar0";
@@ -45,7 +47,7 @@ private:
             AssetLocator::Locations expected;
             expected.push_back( location0 );
 
-            TEST_ASSERT( expected == mAssetLocator->getFilepath( mAssetTag ) );
+            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
 	}
 
         void addAndRetrieveSecondLOD()
@@ -56,7 +58,7 @@ private:
             expected.push_back( location0 );
             expected.push_back( location1 );
 
-            TEST_ASSERT( expected == mAssetLocator->getFilepath( mAssetTag ) );
+            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
         }
 
         void removeAndRetrieveLOD()
@@ -66,7 +68,7 @@ private:
             AssetLocator::Locations expected;
             expected.push_back( location0 );
 
-            TEST_ASSERT( expected == mAssetLocator->getFilepath( mAssetTag ) );
+            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
         }
 
         void updateAndRetrieveLOD()
@@ -76,7 +78,7 @@ private:
             AssetLocator::Locations expected;
             expected.push_back( location1 );
 
-            TEST_ASSERT( expected == mAssetLocator->getFilepath( mAssetTag ) );
+            TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
         }
 };
 
@@ -144,8 +146,8 @@ main(int argc, char* argv[])
 
 		// Demonstrates the ability to use multiple test suites
 		Test::Suite ts;
-		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_mem)));
-		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_db)));
+		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_mem, "AssetLocatorMemoryImpl")));
+		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_db, "AssetLocatorDatabaseImpl")));
 
 		// Run the tests
 		auto_ptr<Test::Output> output(cmdline(argc, argv));
