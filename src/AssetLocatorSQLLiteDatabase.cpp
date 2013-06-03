@@ -102,7 +102,7 @@ namespace cards
     AssetLocatorSQLLiteDatabase::update(std::string name, int lod, std::string location)
     {
       sqlite3_stmt* statement; 
-      sqlite3_prepare_v2(database, stmt_delete_id.c_str(), -1, &statement, 0);
+      sqlite3_prepare_v2(database, stmt_update.c_str(), -1, &statement, 0);
       sqlite3_bind_text(statement, 1, location.c_str(), location.size(), SQLITE_STATIC);
       sqlite3_bind_text(statement, 2, name.c_str(), name.size(), SQLITE_STATIC);
       sqlite3_bind_int(statement, 3, lod);
