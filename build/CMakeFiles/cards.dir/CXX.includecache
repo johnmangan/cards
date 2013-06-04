@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/AssetLocatorDatabase.h
+string
+-
+vector
+-
+
+../include/AssetLocatorSQLLiteDatabase.h
+AssetLocatorDatabase.h
+../include/AssetLocatorDatabase.h
+sqlite3.h
+-
+
+../include/SQLLiteDatabasePrepStmts.h
+string
+-
+
+../sqlite/src/sqlite3.h
+stdarg.h
+-
+
+/home/ed/opt/cards/src/AssetLocatorSQLLiteDatabase.cpp
+AssetLocatorSQLLiteDatabase.h
+/home/ed/opt/cards/src/AssetLocatorSQLLiteDatabase.h
+SQLLiteDatabasePrepStmts.h
+/home/ed/opt/cards/src/SQLLiteDatabasePrepStmts.h
+iostream
+-
+
