@@ -9,8 +9,12 @@
 #include <AssetMetadataMappingMemoryImpl.h>
 #include <RankedSearchImpl.h>
 
+#include <AssetMetadataMapping.h>
+#include <AssetMetadataMappingMemoryImpl.h>
+
 #include "test-assetlocator.hpp"
 #include "test-accessmanager.hpp"
+#include "test-assetmetadatamapping.hpp"
 
 #include "cpptest.h"
 
@@ -127,6 +131,15 @@ main(int argc, char* argv[])
                 {
                     ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite( it->first, it->second )));
 		}
+
+                // + Asset Metadata Mapping Tests
+                for (std::map< AssetMetadataMapping*, std::string >::iterator it = asset_metadata_mappings.begin();
+                     asset_metadata_mappings.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new AssetMetadataMappingTestSuite( it->first, it->second )));
+		}
+
 
                 // + Access Manager Tests
                 for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = access_managers.begin();
