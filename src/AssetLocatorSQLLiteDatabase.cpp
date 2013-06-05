@@ -14,7 +14,7 @@ namespace cards
     {
       database = NULL;
       open(filename);
-    }
+    } 
 
     void 
     AssetLocatorSQLLiteDatabase::insert(std::string name, int lod, std::string location)

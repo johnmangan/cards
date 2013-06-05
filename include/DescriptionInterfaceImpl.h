@@ -11,6 +11,8 @@ class IDescriptionImpl : public IDescription
 {
 public:
 
+    IDescriptionImpl();
+
     IDescriptionImpl( AccessManager* accessManager );
 
     // Asset

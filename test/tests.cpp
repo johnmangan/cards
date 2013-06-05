@@ -95,9 +95,9 @@ main(int argc, char* argv[])
                      asset_locators.end() != al_it;
                      ++al_it)
                 {
-                    for (std::map< AssetMetadataMapping*, std::string >::iterator ammm_it = asset_metadata_mappings.begin();
-                         asset_metadata_mappings.end() != ammm_it;
-                         ++ammm_it)
+                    for (std::map< AssetMetadataMapping*, std::string >::iterator amm_it = asset_metadata_mappings.begin();
+                         asset_metadata_mappings.end() != amm_it;
+                         ++amm_it)
                     {
                         for (std::map< RankedSearch*, std::string >::iterator rs_it = ranked_searches.begin();
                              ranked_searches.end() != rs_it;
@@ -105,17 +105,17 @@ main(int argc, char* argv[])
                         {
                             AccessManagerTestSuite::TestUtilities testUtilities;
                             testUtilities.assetLocator = al_it->first;
-                            testUtilities.assetMetadataMapping = ammm_it->first;
+                            testUtilities.assetMetadataMapping = amm_it->first;
                             testUtilities.rankedSearch = rs_it->first;
                             testUtilities.className = "AccessManagerImpl{ ";
                             testUtilities.className += al_it->second;
                             testUtilities.className += " ";
-                            testUtilities.className += ammm_it->second;
+                            testUtilities.className += amm_it->second;
                             testUtilities.className += " ";
                             testUtilities.className += rs_it->second;
                             testUtilities.className += "}";
 
-                            AccessManager* am = new AccessManagerImpl( al_it->first, ammm_it->first, rs_it->first );
+                            AccessManager* am = new AccessManagerImpl( al_it->first, amm_it->first, rs_it->first );
                             access_managers[ am ] = testUtilities; 
                         }
                     }
