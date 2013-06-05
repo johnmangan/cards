@@ -2,96 +2,20 @@
 #include <cstdlib>
 #include <cstring>
 
-#include <AssetLocator.h>
-
-#include <AssetTagImpl.h>
 #include <AssetLocatorMemoryImpl.h>
 #include <AssetLocatorDatabaseImpl.h>
+
+#include <AccessManagerImpl.h>
+#include <AssetMetadataMappingMemoryImpl.h>
+#include <RankedSearchImpl.h>
+
+#include "test-assetlocator.hpp"
+#include "test-accessmanager.hpp"
 
 #include "cpptest.h"
 
 using namespace std;
 using namespace cards;
-
-class AssetLocatorTestSuite : public Test::Suite
-{
-public:
-    AssetLocatorTestSuite( AssetLocator* assetLocator, std::string className )
-        : mAssetLocator( assetLocator )
-    {
-        mClassMsg = std::string("Class: ") + className;
-
-        TEST_ADD(AssetLocatorTestSuite::addAndRetrieveLOD)
-        TEST_ADD(AssetLocatorTestSuite::addAndRetrieveSecondLOD)
-        TEST_ADD(AssetLocatorTestSuite::removeAndRetrieveLOD)
-        TEST_ADD(AssetLocatorTestSuite::updateAndRetrieveLOD)
-        TEST_ADD(AssetLocatorTestSuite::removeToCleanupAsset)
-    }
-
-    ~AssetLocatorTestSuite()
-    {
-        delete mAssetTag;
-    }    
-private:
-
-    std::string mClassMsg;
-    AssetLocator* mAssetLocator;
-    AssetTag* mAssetTag = new AssetTagImpl( "foo" );
-    std::string location0 = "bar0";
-    std::string location1 = "bar1";
-
-    void addAndRetrieveLOD()
-    {
-        mAssetLocator->addLevelOfDetailLocation( mAssetTag, 0, location0 );
-
-        AssetLocator::Locations expected;
-        expected.push_back( location0 );
-
-        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-    }
-
-    void addAndRetrieveSecondLOD()
-    {
-        mAssetLocator->addLevelOfDetailLocation( mAssetTag, 1, location1 );
-
-        AssetLocator::Locations expected;
-        expected.push_back( location0 );
-        expected.push_back( location1 );
-
-        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-    }
-
-    void removeAndRetrieveLOD()
-    {
-        mAssetLocator->removeLevelOfDetailLocation( mAssetTag, 1 );
-
-        AssetLocator::Locations expected;
-        expected.push_back( location0 );
-
-        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-    }
-
-    void updateAndRetrieveLOD()
-    {
-        mAssetLocator->updateLevelOfDetailLocation( mAssetTag, 0, location1 );
-
-        AssetLocator::Locations expected;
-        expected.push_back( location1 );
-
-        TEST_ASSERT_MSG( expected == mAssetLocator->getFilepath( mAssetTag ), mClassMsg.c_str() );
-    }
-
-    void removeToCleanupAsset()
-    {
-        TEST_ASSERT_MSG( !mAssetLocator->getFilepath( mAssetTag ).empty(),
-            (mClassMsg + ":\t Missing Asset").c_str() );
-
-        mAssetLocator->removeAsset( mAssetTag );
-
-        TEST_ASSERT_MSG( mAssetLocator->getFilepath( mAssetTag ).empty(),
-            (mClassMsg + ":\t Failed to remove asset").c_str() );
-    }
-};
 
 enum OutputType
 {
@@ -152,21 +76,77 @@ main(int argc, char* argv[])
 	try
 	{
                 // Setup
-                AssetLocator* asset_locator_mem = new AssetLocatorMemoryImpl;
-                AssetLocator* asset_locator_db = new AssetLocatorDatabaseImpl;
+                std::map< AssetLocator*, std::string > asset_locators;
+                asset_locators[ new AssetLocatorMemoryImpl ] = "AssetLocatorMemoryImpl";
+                asset_locators[ new AssetLocatorDatabaseImpl ] = "AssetLocatorDatabaseImpl";
+
+                std::map< AssetMetadataMapping*, std::string > asset_metadata_mappings;
+                asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
+
+                std::map< RankedSearch*, std::string > ranked_searches;
+                ranked_searches[ new RankedSearchImpl ] = "RankedSearchImpl";
+
+                std::map< AccessManager*, AccessManagerTestSuite::TestUtilities > access_managers;
+                for (std::map< AssetLocator*, std::string >::iterator al_it = asset_locators.begin();
+                     asset_locators.end() != al_it;
+                     ++al_it)
+                {
+                    for (std::map< AssetMetadataMapping*, std::string >::iterator amm_it = asset_metadata_mappings.begin();
+                         asset_metadata_mappings.end() != amm_it;
+                         ++amm_it)
+                    {
+                        for (std::map< RankedSearch*, std::string >::iterator rs_it = ranked_searches.begin();
+                             ranked_searches.end() != rs_it;
+                             ++rs_it)
+                        {
+                            AccessManagerTestSuite::TestUtilities testUtilities;
+                            testUtilities.assetLocator = al_it->first;
+                            testUtilities.assetMetadataMapping = amm_it->first;
+                            testUtilities.rankedSearch = rs_it->first;
+                            testUtilities.className = "AccessManagerImpl{ ";
+                            testUtilities.className += al_it->second;
+                            testUtilities.className += " ";
+                            testUtilities.className += amm_it->second;
+                            testUtilities.className += " ";
+                            testUtilities.className += rs_it->second;
+                            testUtilities.className += "}";
+
+                            AccessManager* am = new AccessManagerImpl( al_it->first, amm_it->first, rs_it->first );
+                            access_managers[ am ] = testUtilities; 
+                        }
+                    }
+                }
 
 		// Demonstrates the ability to use multiple test suites
 		Test::Suite ts;
-		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_mem, "AssetLocatorMemoryImpl")));
-		ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite(asset_locator_db, "AssetLocatorDatabaseImpl")));
+
+                // + Asset Locator Tests
+                for (std::map< AssetLocator*, std::string >::iterator it = asset_locators.begin();
+                     asset_locators.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite( it->first, it->second )));
+		}
+
+                // + Access Manager Tests
+                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = access_managers.begin();
+                     access_managers.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new AccessManagerTestSuite( it->first, it->second )));
+		}
 
 		// Run the tests
 		auto_ptr<Test::Output> output(cmdline(argc, argv));
 		ts.run(*output, true);
 
                 // Teardown
-                delete asset_locator_mem;
-                delete asset_locator_db;
+                for (std::map< AssetLocator*, std::string >::iterator it = asset_locators.begin();
+                     asset_locators.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
 	}
 	catch (...)
 	{
