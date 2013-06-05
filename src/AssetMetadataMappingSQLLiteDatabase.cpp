@@ -1,5 +1,6 @@
 #include "AssetMetadataMappingSQLLiteDatabase.h"
 #include "AssetMetadataMappingSQLLiteDatabasePrepStmts.h"
+#include "AssetTagImpl.h"
 
 #include <iostream>
 #include <sstream>
@@ -37,7 +38,7 @@ namespace cards
     }
 
     AssetMetadataMapping::AssetSet
-    AssetMetadataMappingSQLLiteDatabase::getDescribedAssets(MetadataSet metadataTags)
+    AssetMetadataMappingSQLLiteDatabase::getDescribedAssets(AssetMetadataMapping::MetadataSet metadataTags)
     {
       AssetMetadataMapping::AssetSet results;
       std::stringstream queryStream;
@@ -73,7 +74,7 @@ namespace cards
             if(result == SQLITE_ROW)
             {
 	      std::string assetName = (char*)sqlite3_column_text(statement, 0);
-              results.insert(new AssetTag(assetName));
+              results.insert(new AssetTagImpl(assetName));
             }
             else
             {

@@ -1,6 +1,8 @@
 #ifndef ASSET_METADATA_MAPPING_DATABASE_H_
 #define ASSET_METADATA_MAPPING_DATABASE_H_
 
+#include "AssetMetadataMapping.h"
+
 #include <string>
 #include <vector>
 
@@ -12,8 +14,8 @@ namespace cards
     virtual void 
     addMetadataToAsset(std::string assetName, std::string metadataTagName) = 0;
 
-    virtual void
-    getDescribedAssets(MetadataSet metadataTags) = 0;
+    virtual AssetMetadataMapping::AssetSet
+    getDescribedAssets(AssetMetadataMapping::MetadataSet metadataTags) = 0;
 
     virtual void
     removeAsset(std::string assetName) = 0;

@@ -17,7 +17,7 @@ namespace cards
     addMetadataToAsset(std::string assetName, std::string metadataTagName);
 
     virtual AssetMetadataMapping::AssetSet
-    getDescribedAssets(MetadataSet metadataTags);
+    getDescribedAssets(AssetMetadataMapping::MetadataSet metadataTags);
 
     virtual void
     removeAsset(std::string assetName);

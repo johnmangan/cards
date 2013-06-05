@@ -1,4 +1,5 @@
-#include <AssetMetadataMappingDatabaseImpl.h>
+#include "AssetMetadataMappingDatabaseImpl.h"
+#include "AssetMetadataMappingSQLLiteDatabase.h"
 
 #include <algorithm>
 
@@ -6,25 +7,25 @@ namespace cards {
 
 AssetMetadataMappingDatabaseImpl::AssetMetadataMappingDatabaseImpl()
 {
-  database = new AssetMetadataMappingDatabase("AssetMetadataMapping.db");
+  database = new AssetMetadataMappingSQLLiteDatabase("AssetMetadataMapping.db");
 }
 
 AssetMetadataMapping::AssetSet
-AssetMetadataMappingDatabaseImpl::describedAssets( MetadataSet metadataTags )
+AssetMetadataMappingDatabaseImpl::describedAssets(AssetMetadataMapping::MetadataSet metadataTags )
 {
-  return database->getDescribedAssets(MetadataSet metadataTags);
+  return database->getDescribedAssets(metadataTags);
 }
 
 void
 AssetMetadataMappingDatabaseImpl::augmentAsset( AssetTag* assetTag, MetadataTag* metadataTag )
 {
-  database->addMetadataToAsset(assetTage->getName(), metadataTag->getName());
+  database->addMetadataToAsset(assetTag->getName(), metadataTag->getName());
 }
 
 /*virtual*/ void
 AssetMetadataMappingDatabaseImpl::unaugmentAsset( AssetTag* assetTag, MetadataTag* metadataTag )
 {
-  database->removeMedataFromAsset(assetTag->getName(), metadataTag->getName());
+  database->removeMetadataFromAsset(assetTag->getName(), metadataTag->getName());
 }
 
 /*virtual*/ void

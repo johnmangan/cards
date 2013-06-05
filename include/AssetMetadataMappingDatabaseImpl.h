@@ -1,15 +1,15 @@
 #ifndef ASSET_METADATA_MAPPING_DATABASE_IMPL_H_
 #define ASSET_METADATA_MAPPING_DATABASE_IMPL_H_
 
-#include <AssetMetadataMapping.h>
-
-#include <map>
+#include "AssetMetadataMapping.h"
+#include "AssetMetadataMappingDatabase.h"
 
 namespace cards {
 
 class AssetMetadataMappingDatabaseImpl : public AssetMetadataMapping
 {
 public:
+    AssetMetadataMappingDatabaseImpl();
 
     virtual AssetSet
     describedAssets( MetadataSet metadataTags );
