@@ -1,3 +1,0 @@
-/home/ed/opt/cards/build/CMakeFiles/cards.dir
-/home/ed/opt/cards/build/CMakeFiles/sqlite3-shared.dir
-/home/ed/opt/cards/build/CMakeFiles/unit_test.dir
