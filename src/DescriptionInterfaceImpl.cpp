@@ -51,7 +51,7 @@ IDescriptionImpl::updateLevelOfDetail( std::string assetName,unsigned int lod, s
 }
 
 /*virtual*/ std::vector< std::string >
-IDescriptionImpl::viewLevelsOfDetail( std::string assetName )
+IDescriptionImpl::getLevelsOfDetail( std::string assetName )
 {
     AssetTag* assetTag = new AssetTagImpl( assetName );
 

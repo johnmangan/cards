@@ -25,7 +25,7 @@ public:
     updateLevelOfDetail( std::string assetName, unsigned int lod, std::string location ) = 0;
 
     virtual std::vector< std::string >
-    viewLevelsOfDetail( std::string assetName ) = 0;
+    getLevelsOfDetail( std::string assetName ) = 0;
 
     // Augmenting Assets with Metadata
     virtual void
