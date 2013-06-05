@@ -20,6 +20,8 @@
 #include <string>
 #include <stdlib.h> 
 
+#include <vector> 
+
 using namespace cards;
 using namespace std; 
 
@@ -30,14 +32,17 @@ int main()
 	string pAssetName, pOldAssetName, pNewAssetName, pMetadataName,pLocation;
 	unsigned int pLOD;
 
-        AccessManagerImpl* am = new AccessManagerImpl ();
-	IDescriptionImpl di (am); 
+	vector<string> LODVector;
+	vector<string>::iterator LODIterator;
+
+        //AccessManagerImpl* am = new AccessManagerImpl ();
+	IDescriptionImpl* di = new IDescriptionImpl(); 
 
 	cout << "1) removeAsset" << endl;
 	cout << "2) addLevelOfDetail" << endl;
 	cout << "3) removeLevelOfDetail" << endl;
 	cout << "4) updateLevelOfDetail" << endl;
-	cout << "5) viewLevelOfDetail" << endl;
+	cout << "5) getLevelOfDetail" << endl;
 	cout << "6) augmentAsset" << endl;
 	cout << "7) unaugmentAsset" << endl;
 	cout << "8) Quit" << endl;
@@ -63,7 +68,7 @@ int main()
 			cout << "Calling removeAsset(" + pAssetName + ")" << endl;
 
 
-		di.removeAsset( pAssetName);
+		di->removeAsset( pAssetName);
 
 			break;
 
@@ -79,7 +84,7 @@ int main()
 			cout << "Calling addLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
 
 
-		di.addLevelOfDetail( pAssetName, pLOD, pLocation); 
+		di->addLevelOfDetail( pAssetName, pLOD, pLocation); 
 
 
 
@@ -98,7 +103,7 @@ int main()
 			cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << ")" << endl;
 
 
-		 di.removeLevelOfDetail( pAssetName,pLOD);
+		 di->removeLevelOfDetail( pAssetName,pLOD);
 
 
 
@@ -118,20 +123,29 @@ int main()
 
 
 
-			di.updateLevelOfDetail( pAssetName, pLOD, pLocation);
+			di->updateLevelOfDetail( pAssetName, pLOD, pLocation);
 
 
 			break;
 
 
 		case 5:
-			cout << "viewLevelsOfDetail( std::string assetName )" << endl;
+			cout << "getLevelsOfDetail( std::string assetName )" << endl;
 
 			cout<<"Please enter assetName "<<endl;
 			cin>>pAssetName;
-			cout<< "Calling viewLevelsOfDetail(" << pAssetName << ")" << endl;
+			cout<< "Calling getLevelsOfDetail(" << pAssetName << ")" << endl;
 
-		  di.viewLevelsOfDetail( pAssetName );
+
+
+	LODVector =  di->getLevelsOfDetail( pAssetName );
+
+	for(LODIterator = LODVector.begin(); 
+		LODIterator != LODVector.end();
+		LODIterator++)
+	{
+	    cout<< "Filepath: "  << *LODIterator<<endl;    
+	}
 
 			break;
 
@@ -142,7 +156,7 @@ int main()
 			cin>>pAssetName>>pMetadataName;
 			cout<< "Calling augmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
 
-	  di.augmentAsset( pAssetName, pMetadataName );
+	  di->augmentAsset( pAssetName, pMetadataName );
 
 			break;
 
@@ -153,7 +167,7 @@ int main()
 			cin>>pAssetName>>pMetadataName;
 			cout<< "Calling unaugmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
 
-		 di.unaugmentAsset( pAssetName, pMetadataName );
+		 di->unaugmentAsset( pAssetName, pMetadataName );
 
 			break;
 		case 8:
