@@ -11,6 +11,7 @@
 
 #include "test-assetlocator.hpp"
 #include "test-accessmanager.hpp"
+#include "test-rankedsearch.hpp"
 
 #include "cpptest.h"
 
@@ -83,8 +84,22 @@ main(int argc, char* argv[])
                 std::map< AssetMetadataMapping*, std::string > asset_metadata_mappings;
                 asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
 
-                std::map< RankedSearch*, std::string > ranked_searches;
-                ranked_searches[ new RankedSearchImpl ] = "RankedSearchImpl";
+                std::map< RankedSearch*, RankedSearchTestSuite::TestUtilities > ranked_searches;
+                for (std::map< AssetMetadataMapping*, std::string >::iterator amm_it = asset_metadata_mappings.begin();
+                    asset_metadata_mappings.end() != amm_it;
+                    ++amm_it)
+                {
+                    RankedSearchTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "RankedSearchImpl{ AccessManager(NULL, ";
+                    testUtilities.className += amm_it->second;
+		    testUtilities.className += ", NULL) }";
+                    testUtilities.accessManager = new AccessManagerImpl(NULL, amm_it->first, NULL);
+
+                    RankedSearch* rs = new RankedSearchImpl;
+                    rs->setAccessManager( testUtilities.accessManager );
+
+                    ranked_searches[ rs ] = testUtilities;
+                }
 
                 std::map< AccessManager*, AccessManagerTestSuite::TestUtilities > access_managers;
                 for (std::map< AssetLocator*, std::string >::iterator al_it = asset_locators.begin();
@@ -95,7 +110,7 @@ main(int argc, char* argv[])
                          asset_metadata_mappings.end() != amm_it;
                          ++amm_it)
                     {
-                        for (std::map< RankedSearch*, std::string >::iterator rs_it = ranked_searches.begin();
+                        for (std::map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator rs_it = ranked_searches.begin();
                              ranked_searches.end() != rs_it;
                              ++rs_it)
                         {
@@ -108,8 +123,8 @@ main(int argc, char* argv[])
                             testUtilities.className += " ";
                             testUtilities.className += amm_it->second;
                             testUtilities.className += " ";
-                            testUtilities.className += rs_it->second;
-                            testUtilities.className += "}";
+                            testUtilities.className += rs_it->second.className;
+                            testUtilities.className += " }";
 
                             AccessManager* am = new AccessManagerImpl( al_it->first, amm_it->first, rs_it->first );
                             access_managers[ am ] = testUtilities; 
@@ -128,6 +143,14 @@ main(int argc, char* argv[])
                     ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite( it->first, it->second )));
 		}
 
+                // + Ranked Search Tests
+                for (std::map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = ranked_searches.begin();
+                     ranked_searches.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new RankedSearchTestSuite( it->first, it->second )));
+		}
+
                 // + Access Manager Tests
                 for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = access_managers.begin();
                      access_managers.end() != it;
@@ -143,6 +166,27 @@ main(int argc, char* argv[])
                 // Teardown
                 for (std::map< AssetLocator*, std::string >::iterator it = asset_locators.begin();
                      asset_locators.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (std::map< AssetMetadataMapping*, std::string >::iterator it = asset_metadata_mappings.begin();
+                     asset_metadata_mappings.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (std::map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = ranked_searches.begin();
+                     ranked_searches.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = access_managers.begin();
+                     access_managers.end() != it;
                      ++it)
                 {
                     delete it->first;
