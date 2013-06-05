@@ -14,7 +14,7 @@ public:
     setAccessManager( AccessManager const* accessManager );
 
     virtual AssetTag*
-    topRankedAsset( MetadataWeights metadataWeights, double percent );
+    topRankedAsset( MetadataWeights metadataWeights, double percent = 1.0 );
 
 private:
     AccessManager const* mAccessManager;
