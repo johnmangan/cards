@@ -33,6 +33,12 @@ set(IMPLEMENTATION_HEADER_PATH ${CMAKE_SOURCE_DIR}/include)
 set(IMPLEMENTATION_SOURCE_PATH ${CMAKE_SOURCE_DIR}/src)
 set(UNIT_TEST_SOURCE_PATH ${CMAKE_SOURCE_DIR}/test)
 
+set(BACKEND_TEST_HEADER_PATH ${CMAKE_SOURCE_DIR}/BackendClient/include)
+set(BACKEND_TEST_SOURCE_PATH ${CMAKE_SOURCE_DIR}/BackendClient/src)
+
+
+
+
 set (EXTERNAL_MODULE_INTERFACES
     ${MODULE_INTERFACES_PATH}/DescriptionInterface.h
     ${MODULE_INTERFACES_PATH}/QueryInterface.h
@@ -78,9 +84,19 @@ set (UNIT_TEST_SOURCE
     ${UNIT_TEST_SOURCE_PATH}/main.cpp
 )
 
+set (BACKEND_TEST_SOURCE
+    ${BACKEND_TEST_SOURCE_PATH}/CommandLineTest.cpp
+)
+
+set (BACKEND_TEST_HEADER
+    ${BACKEND_TEST_HEADER_PATH}/CommandLineTest.h
+)
+
+
 include_directories(${CMAKE_SOURCE_DIR}
     ${MODULE_INTERFACES_PATH}
     ${IMPLEMENTATION_HEADER_PATH}
+    ${BACKEND_TEST_HEADER_PATH}
 )
 
 add_library (cards SHARED
@@ -91,11 +107,21 @@ add_library (cards SHARED
 )
 
 add_executable (unit_test 
-	${UNIT_TEST_SOURCE}
-	${EXTERNAL_MODULE_INTERFACES}
+    ${UNIT_TEST_SOURCE}
+    ${EXTERNAL_MODULE_INTERFACES}
         ${INTERNAL_MODULE_INTERFACES}
         ${IMPLEMENTATION_HEADERS}
 )
+
+add_executable (backend_test
+    ${BACKEND_TEST_SOURCE}
+    ${BACKEND_TEST_HEADER}
+    ${EXTERNAL_MODULE_INTERFACES}
+    ${INTERNAL_MODULE_INTERFACES}
+    ${IMPLEMENTATION_HEADERS}
+)
+
+target_link_libraries (backend_test cards sqlite3-shared pthread dl)
 
 target_link_libraries (unit_test cards sqlite3-shared pthread dl)
 
@@ -114,4 +140,3 @@ install (TARGETS cards
 install (FILES ${EXTERNAL_INTERFACES}
     DESTINATION ${SMAKE_INSTALL_PREFIX}/include
 )
-

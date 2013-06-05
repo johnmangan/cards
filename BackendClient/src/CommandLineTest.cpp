@@ -6,6 +6,11 @@
  */
 
 #include "DescriptionInterface.h"
+#include "DescriptionInterfaceImpl.h"
+
+#include "AccessManager.h"
+#include "AccessManagerImpl.h"
+
 #include "CommandLineTest.h"
 
 
@@ -25,17 +30,17 @@ int main()
 	string pAssetName, pOldAssetName, pNewAssetName, pMetadataName,pLocation;
 	unsigned int pLOD;
 
-	DescriptionInterface di = new DescriptionInterfaceImpl(); 
+        AccessManagerImpl* am = new AccessManagerImpl ();
+	IDescriptionImpl di (am); 
 
 	cout << "1) removeAsset" << endl;
 	cout << "2) addLevelOfDetail" << endl;
 	cout << "3) removeLevelOfDetail" << endl;
 	cout << "4) updateLevelOfDetail" << endl;
-	cout << "5) removeLocation" << endl;
-	cout << "6) viewLevelOfDetail" << endl;
-	cout << "7) augmentAsset" << endl;
-	cout << "8) unaugmentAsset" << endl;
-	cout << "9) Quit" << endl;
+	cout << "5) viewLevelOfDetail" << endl;
+	cout << "6) augmentAsset" << endl;
+	cout << "7) unaugmentAsset" << endl;
+	cout << "8) Quit" << endl;
 
 	while (true)
 	{
@@ -86,14 +91,14 @@ int main()
 			cout << "removeLevelOfDetail( std::string assetName, unsigned int lod )" << endl;
 
 
-			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
+			cout<<"Please enter assetName and lod separated by space"<<endl;
 
-			cin>>pAssetName>>pLOD>>pLocation;
+			cin>>pAssetName>>pLOD;
 
-			cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
+			cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << ")" << endl;
 
 
-		 di.removeLevelOfDetail( pAssetName,pLOD,pLocation);
+		 di.removeLevelOfDetail( pAssetName,pLOD);
 
 
 
@@ -118,19 +123,8 @@ int main()
 
 			break;
 
+
 		case 5:
-			cout << "removeLocation( std::string location )" << endl;
-
-			cout<<"Please enter location "<<endl;
-
-			cin>>pLocation;
-			cout<< "Calling removeLocation(" << pLocation << ")" << endl;
-
-			  di.removeLocation(pLocation );
-
-			break;
-
-		case 6:
 			cout << "viewLevelsOfDetail( std::string assetName )" << endl;
 
 			cout<<"Please enter assetName "<<endl;
@@ -141,7 +135,7 @@ int main()
 
 			break;
 
-		case 7:
+		case 6:
 			cout<<"augmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
@@ -152,7 +146,7 @@ int main()
 
 			break;
 
-		case 8:
+		case 7:
 			cout<<"unaugmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
@@ -162,7 +156,7 @@ int main()
 		 di.unaugmentAsset( pAssetName, pMetadataName );
 
 			break;
-		case 9:
+		case 8:
 
 			cout << "Quitting CommandLineTest" << endl;
 			exit(0);

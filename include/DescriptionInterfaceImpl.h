@@ -19,13 +19,13 @@ public:
 
     // Filepaths to different Levels Of Detail
     virtual void
-    addLevelOfDetail( std::string assetName, int lod, std::string location );
+    addLevelOfDetail( std::string assetName,unsigned int lod, std::string location );
 
     virtual void
-    removeLevelOfDetail( std::string assetName, int lod );
+    removeLevelOfDetail( std::string assetName,unsigned int lod );
 
     virtual void
-    updateLevelOfDetail( std::string assetName, int lod, std::string location );
+    updateLevelOfDetail( std::string assetName,unsigned int lod, std::string location );
 
     virtual std::vector< std::string >
     viewLevelsOfDetail( std::string assetName );

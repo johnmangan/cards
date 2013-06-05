@@ -21,7 +21,7 @@ IDescriptionImpl::removeAsset( std::string assetName )
 }
 
 /*virtual*/ void
-IDescriptionImpl::addLevelOfDetail( std::string assetName, int lod, std::string location )
+IDescriptionImpl::addLevelOfDetail( std::string assetName,unsigned int lod, std::string location )
 {
     AssetTag* assetTag = new AssetTagImpl( assetName );
 
@@ -29,7 +29,7 @@ IDescriptionImpl::addLevelOfDetail( std::string assetName, int lod, std::string 
 }
 
 /*virtual*/ void
-IDescriptionImpl::removeLevelOfDetail( std::string assetName, int lod )
+IDescriptionImpl::removeLevelOfDetail( std::string assetName,unsigned int lod )
 {
     AssetTag* assetTag = new AssetTagImpl( assetName );
 
@@ -37,7 +37,7 @@ IDescriptionImpl::removeLevelOfDetail( std::string assetName, int lod )
 }
 
 /*virtual*/ void
-IDescriptionImpl::updateLevelOfDetail( std::string assetName, int lod, std::string location )
+IDescriptionImpl::updateLevelOfDetail( std::string assetName,unsigned int lod, std::string location )
 {
     AssetTag* assetTag = new AssetTagImpl( assetName );
 
