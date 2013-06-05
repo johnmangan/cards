@@ -1,16 +1,14 @@
 #include <AccessManagerImpl.h>
 
-#include <AssetLocatorMemoryImpl.h>
-#include <AssetMetadataMappingMemoryImpl.h>
-#include <RankedSearchImpl.h>
+#include <AssetLocator.h>
+#include <AssetMetadataMapping.h>
+#include <RankedSearch.h>
 
 namespace cards {
 
-AccessManagerImpl::AccessManagerImpl()
+AccessManagerImpl::AccessManagerImpl(AssetLocator* assetLocator, AssetMetadataMapping* assetMetadataMapping, RankedSearch* rankedSearch)
+: mAssetLocator( assetLocator ), mAssetMetadataMapping( assetMetadataMapping ), mRankedSearch (rankedSearch )
 {
-    mAssetLocator = new AssetLocatorMemoryImpl();
-    mAssetMetadataMapping = new AssetMetadataMappingMemoryImpl();
-    mRankedSearch = new RankedSearchImpl(this);
 }
 
 /*virtual*/ AssetLocator *
@@ -28,6 +26,8 @@ AccessManagerImpl::getAssetMetadataMapping( void ) const
 /*virtual*/ RankedSearch *
 AccessManagerImpl::getRankedSearch( void ) const
 {
+    // TODO: fix hack on next line - so ugly!
+    mRankedSearch->setAccessManager( this );
     return mRankedSearch;
 }
 

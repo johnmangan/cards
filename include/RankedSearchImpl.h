@@ -2,20 +2,22 @@
 #define RANKED_SEARCH_IMPL_H_
 
 #include <RankedSearch.h>
-#include <AccessManager.h>
 
 namespace cards {
 
 class RankedSearchImpl : public RankedSearch
 {
 public:
-    RankedSearchImpl( AccessManager* accessManager );
+    RankedSearchImpl();
+
+    virtual void
+    setAccessManager( AccessManager const* accessManager );
 
     virtual AssetTag*
     topRankedAsset( MetadataWeights metadataWeights, double percent );
 
 private:
-    AccessManager* mAccessManager;
+    AccessManager const* mAccessManager;
 
     struct AssetValue
     {
