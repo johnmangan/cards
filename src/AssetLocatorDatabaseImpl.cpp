@@ -7,6 +7,11 @@ namespace cards {
       database = new AssetLocatorSQLLiteDatabase("AssetLocator.db");
     }
 
+    AssetLocatorDatabaseImpl::~AssetLocatorDatabaseImpl()
+    {
+      delete database;
+    }
+
     AssetLocator::Locations
     AssetLocatorDatabaseImpl::getFilepath( AssetTag* assetTag ) const
     {
