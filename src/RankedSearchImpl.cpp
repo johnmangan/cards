@@ -6,15 +6,24 @@
 
 namespace cards {
 
-RankedSearchImpl::RankedSearchImpl( AccessManager* accessManager )
-: mAccessManager( accessManager )
+RankedSearchImpl::RankedSearchImpl()
 {
+    mAccessManager = NULL;
     srand( time(NULL) );
+}
+
+/*virtual*/ void
+RankedSearchImpl::setAccessManager( AccessManager const* accessManager )
+{
+    mAccessManager = accessManager;
 }
 
 /*virtual*/ AssetTag*
 RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percent )
 {
+    if (mAccessManager == NULL)
+        return NULL;
+
     std::map< AssetTag*, int, AssetTag::AssetTagComparator > assetValues;
 
     // Get assets and assign then weighted values

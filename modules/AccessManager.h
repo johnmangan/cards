@@ -7,6 +7,8 @@
 
 namespace cards {
 
+class RankedSearch; // Forward Declaration
+
 class AccessManager
 {
 public:

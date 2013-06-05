@@ -10,6 +10,8 @@ class AccessManagerImpl : public AccessManager
 public:
     AccessManagerImpl();
 
+    AccessManagerImpl(AssetLocator* assetLocator, AssetMetadataMapping* assetMetadataMapping, RankedSearch* rankedSearch);
+
     virtual AssetLocator*
     getAssetLocator( void ) const;
 

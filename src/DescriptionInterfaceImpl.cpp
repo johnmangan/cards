@@ -3,8 +3,14 @@
 // Factories can get rid of these includes:
 #include <AssetTagImpl.h>
 #include <MetadataTagImpl.h>
+#include <AccessManagerImpl.h>
 
 namespace cards {
+
+IDescriptionImpl::IDescriptionImpl()
+{
+    mAccessManager = new AccessManagerImpl;
+}
 
 IDescriptionImpl::IDescriptionImpl( AccessManager* accessManager )
 : mAccessManager( accessManager )
