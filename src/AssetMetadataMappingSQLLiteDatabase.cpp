@@ -20,14 +20,14 @@ namespace cards
     }
 
     void 
-    AssetMetadataMappingSQLLiteDatabase::addMetadataToAsset(std::string assetName, std::string metadataTagName);
+    AssetMetadataMappingSQLLiteDatabase::addMetadataToAsset(std::string assetName, std::string metadataTagName)
     {
       sqlite3_stmt* statement;
       int metaID = getMetaID(metadataTagName);
 
-      sqlite3_prepare_v2(database, stmt_insert_metadata_atable.c_str(), -1, &statement, 0);
+      sqlite3_prepare_v2(database, stmt_insert_atable.c_str(), -1, &statement, 0);
       sqlite3_bind_int(statement, 1, metaID);
-      sqlite3_bind_text(statement, 2, assetName.c_str(), name.size(), SQLITE_STATIC);
+      sqlite3_bind_text(statement, 2, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 
       int result = sqlite3_step(statement);
 
@@ -44,7 +44,7 @@ namespace cards
       std::stringstream queryStream;
       std::vector<int> metaIDs;
 
-      for (MetadataSet::iterator metaIter = metadataTags.begin(); metaIter != metadataTags.end(); ++metaIter)
+      for (AssetMetadataMapping::MetadataSet::iterator metaIter = metadataTags.begin(); metaIter != metadataTags.end(); ++metaIter)
       {
 	metaIDs.push_back(getMetaID((*metaIter)->getName()));
       }
@@ -63,7 +63,7 @@ namespace cards
 
       sqlite3_stmt* statement;
     
-      if(sqlite3_prepare_v2(database, query, -1, &statement, 0) == SQLITE_OK)
+      if(sqlite3_prepare_v2(database, queryStream.str().c_str(), -1, &statement, 0) == SQLITE_OK)
       {
         int cols = sqlite3_column_count(statement);
         int result = 0;
@@ -89,11 +89,11 @@ namespace cards
     }
 
     void
-    AssetMetadataMappingSQLLiteDatabase::removeAsset(std::string assetName);
+    AssetMetadataMappingSQLLiteDatabase::removeAsset(std::string assetName)
     {
       sqlite3_stmt* statement; 
       sqlite3_prepare_v2(database, stmt_delete_asset.c_str(), -1, &statement, 0);
-      sqlite3_bind_text(statement, 1, assetName.c_str(), name.size(), SQLITE_STATIC);
+      sqlite3_bind_text(statement, 1, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 
       int result = sqlite3_step(statement);
 
@@ -111,7 +111,7 @@ namespace cards
 
       sqlite3_prepare_v2(database, stmt_delete_metadata_atable.c_str(), -1, &statement, 0);
       sqlite3_bind_int(statement, 1, metaID);
-      sqlite3_bind_text(statement, 2, assetName.c_str(), name.size(), SQLITE_STATIC);
+      sqlite3_bind_text(statement, 2, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 
       int result = sqlite3_step(statement);
 
@@ -148,13 +148,14 @@ namespace cards
     }
 
 
-    int AssetMetadataMappingSQLLiteDatabase::getMetaID(std::string metadataName)
+    int AssetMetadataMappingSQLLiteDatabase::getMetaID(std::string metadataTagName)
     {
       int metaID = -1;
+      sqlite3_stmt* statement; 
 
       if(sqlite3_prepare_v2(database, stmt_select_metaID.c_str(), -1, &statement, 0) == SQLITE_OK)
       {
-	  sqlite3_bind_text(statement, 1, metadataTagName.c_str(), name.size(), SQLITE_STATIC);
+	  sqlite3_bind_text(statement, 1, metadataTagName.c_str(), metadataTagName.size(), SQLITE_STATIC);
 
 	  int cols = sqlite3_column_count(statement);
 	  int result = sqlite3_step(statement);

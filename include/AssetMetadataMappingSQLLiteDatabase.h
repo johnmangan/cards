@@ -1,7 +1,7 @@
 #ifndef ASSET_METADATA_MAPPING_SQLLITE_DATABASE_H_
 #define ASSET_METADATA_MAPPING_SQLLITE_DATABASE_H_
 
-#include "AssetMetadataMappingSQLLiteDatabase.h"
+#include "AssetMetadataMappingDatabase.h"
 
 #include <sqlite3.h>
 
