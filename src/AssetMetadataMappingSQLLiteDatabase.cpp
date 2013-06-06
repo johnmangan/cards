@@ -17,6 +17,7 @@ namespace cards
     {
       database = NULL;
       open(filename);
+      lastID = getMaxMetadataID();
     }
 
     void 
@@ -67,6 +68,7 @@ namespace cards
       {
         int cols = sqlite3_column_count(statement);
         int result = 0;
+
         while(true)
         {
             result = sqlite3_step(statement);
@@ -147,6 +149,30 @@ namespace cards
 
     }
 
+    int AssetMetdataMappingSQLLiteDatabase::getMaxMetadataID()
+    {
+      int metaID = -1;
+      sqlite3_stmt* statement; 
+
+      if(sqlite3_prepare_v2(database, stmt_select_max_metaID.c_str(), -1, &statement, 0) == SQLITE_OK)
+      {
+	  int cols = sqlite3_column_count(statement);
+	  int result = sqlite3_step(statement);
+             
+          if(result == SQLITE_ROW)
+          {
+            metaID = sqlite3_column_int(statement, cols-1);
+          }
+        
+        sqlite3_finalize(statement);
+      }
+ 
+      if (metaID == -1)
+	metaID = 0;
+
+      return metaID;
+
+    }
 
     int AssetMetadataMappingSQLLiteDatabase::getMetaID(std::string metadataTagName)
     {
@@ -167,6 +193,9 @@ namespace cards
         
         sqlite3_finalize(statement);
       }
+
+      if (metaID == -1)
+	metaID = lastID++;
  
       return metaID;
 

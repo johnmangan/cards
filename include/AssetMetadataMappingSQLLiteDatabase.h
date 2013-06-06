@@ -30,8 +30,10 @@ namespace cards
     open(std::string filename);
 
   private:
+    int getMaxMetadataID();
     int getMetaID(std::string metadataName);
 
+    int lastID;
     sqlite3* database;
   };
 }
