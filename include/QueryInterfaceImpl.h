@@ -11,6 +11,8 @@ class IQueryImpl : public IQuery
 {
 public:
 
+    IQueryImpl();
+
     IQueryImpl( AccessManager* accessManager );
 
     /* Funtion: getFilepath

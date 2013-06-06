@@ -2,8 +2,14 @@
 
 #include <AssetTagImpl.h>
 #include <MetadataTagImpl.h>
+#include <AccessManagerImpl.h>
 
 namespace cards {
+
+IQueryImpl::IQueryImpl()
+{
+    mAccessManager = new AccessManagerImpl;
+}
 
 IQueryImpl::IQueryImpl( AccessManager* accessManager )
 : mAccessManager( accessManager )
