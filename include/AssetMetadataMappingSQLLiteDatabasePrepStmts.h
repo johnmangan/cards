@@ -6,8 +6,8 @@
 namespace cards
 {
 
-  const std::string stmt_create_asset_table = "CREATE TABLE Assets (MetaID INTEGER, Name STRING);";
-  const std::string stmt_create_metadata_table = "CREATE TABLE Metadata (Name STRING, MetaID INTEGER);";
+  const std::string stmt_create_asset_table = "CREATE TABLE IF NOT EXISTS Assets (MetaID INTEGER, Name STRING);";
+  const std::string stmt_create_metadata_table = "CREATE TABLE IF NOT EXISTS Metadata (Name STRING, MetaID INTEGER);";
 
   const std::string stmt_delete_asset = "DELETE FROM Assets WHERE Name = ?;";
   const std::string stmt_delete_metadata_atable = "DELETE FROM Assets WHERE MetaID = ? AND Name = ?;";

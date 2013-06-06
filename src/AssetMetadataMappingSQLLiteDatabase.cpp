@@ -136,14 +136,14 @@ namespace cards
 
       sqlite3_finalize(statement);
 
-      /*sqlite3_prepare_v2(database, stmt_create_asset_table.c_str(), -1, &statement, 0);
+      sqlite3_prepare_v2(database, stmt_create_asset_table.c_str(), -1, &statement, 0);
 
       result = sqlite3_step(statement);
 
       if (result != SQLITE_DONE)
 	std::cerr << "Error creating Asset table" << std::endl;
 
-      sqlite3_finalize(statement);*/
+      sqlite3_finalize(statement);
 
     }
 
