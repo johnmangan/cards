@@ -11,7 +11,7 @@ namespace cards
 
   const std::string stmt_delete_asset = "DELETE FROM Assets WHERE Name = ?;";
   const std::string stmt_delete_metadata_atable = "DELETE FROM Assets WHERE MetaID = ? AND Name = ?;";
-  const std::string stmt_insert_atable = "INSERT INTO Assets VALUES(?,?);";
+  const std::string stmt_insert_atable = "INSERT INTO Assets VALUES(?);";
 
   const std::string stmt_select_metaID = "SELECT MetaID FROM Metadata WHERE Name = ?;";
   const std::string stmt_select_max_metaID = "SELECT MAX(MetaID) FROM Metadata;";

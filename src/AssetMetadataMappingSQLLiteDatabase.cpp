@@ -23,11 +23,11 @@ namespace cards
     AssetMetadataMappingSQLLiteDatabase::addMetadataToAsset(std::string assetName, std::string metadataTagName)
     {
       sqlite3_stmt* statement;
-      int metaID = getMetaID(metadataTagName);
+//      int metaID = getMetaID(metadataTagName);
 
       sqlite3_prepare_v2(database, stmt_insert_atable.c_str(), -1, &statement, 0);
-      sqlite3_bind_int(statement, 1, metaID);
-      sqlite3_bind_text(statement, 2, assetName.c_str(), assetName.size(), SQLITE_STATIC);
+      //sqlite3_bind_int(statement, 1, metaID);
+      sqlite3_bind_text(statement, 1, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 
       int result = sqlite3_step(statement);
 
