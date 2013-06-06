@@ -83,11 +83,6 @@ set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/RankedSearchImpl.cpp
 )
 
-set (UNIT_TEST_HEADERS
-    ${UNIT_TEST_SOURCE_PATH}/test-assetlocator.hpp
-    ${UNIT_TEST_SOURCE_PATH}/test-accessmanager.hpp
-)
-
 set (UNIT_TEST_SOURCE
     ${UNIT_TEST_SOURCE_PATH}/tests.cpp
 )
