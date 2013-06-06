@@ -24,7 +24,7 @@ public:
     removeAsset( AssetTag* assetTag );
 
 private:
-    typedef std::map< MetadataTag*, AssetSet > MetaAssetSetMap;
+    typedef std::map< MetadataTag*, AssetSet, MetadataTag::MetadataTagComparator > MetaAssetSetMap;
 
     MetaAssetSetMap mMetaAssetMap;
 };
