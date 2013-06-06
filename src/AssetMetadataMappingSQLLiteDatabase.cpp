@@ -149,7 +149,7 @@ namespace cards
 
     }
 
-    int AssetMetdataMappingSQLLiteDatabase::getMaxMetadataID()
+    int AssetMetadataMappingSQLLiteDatabase::getMaxMetadataID()
     {
       int metaID = -1;
       sqlite3_stmt* statement; 
@@ -171,7 +171,6 @@ namespace cards
 	metaID = 0;
 
       return metaID;
-
     }
 
     int AssetMetadataMappingSQLLiteDatabase::getMetaID(std::string metadataTagName)
@@ -194,10 +193,9 @@ namespace cards
         sqlite3_finalize(statement);
       }
 
-      if (metaID == -1)
-	metaID = lastID++;
+      //if (metaID == -1)
+	//metaID = lastID++;
  
       return metaID;
-
     }
 }
