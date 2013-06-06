@@ -56,10 +56,10 @@ set (IMPLEMENTATION_HEADERS
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorDatabaseImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetLocatorSQLLiteDatabase.h
     ${IMPLEMENTATION_HEADER_PATH}/SQLLiteDatabasePrepStmts.h
-    #${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingDatabase.h
-    #${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingDatabaseImpl.h
-    #${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingSQLLiteDatabase.h
-    #${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingSQLLiteDatabasePrepStmts.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingDatabase.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingDatabaseImpl.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingSQLLiteDatabase.h
+    ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingSQLLiteDatabasePrepStmts.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetMetadataMappingMemoryImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/AssetTagImpl.h
     ${IMPLEMENTATION_HEADER_PATH}/DescriptionInterfaceImpl.h
@@ -74,8 +74,8 @@ set (IMPLEMENTATION_SOURCES
     ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorMemoryImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetLocatorSQLLiteDatabase.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingMemoryImpl.cpp
-    #${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingDatabaseImpl.cpp
-    #${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingSQLLiteDatabase.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingDatabaseImpl.cpp
+    ${IMPLEMENTATION_SOURCE_PATH}/AssetMetadataMappingSQLLiteDatabase.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/AssetTagImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/DescriptionInterfaceImpl.cpp
     ${IMPLEMENTATION_SOURCE_PATH}/MetadataTagImpl.cpp

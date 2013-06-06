@@ -2,10 +2,11 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <AccessManagerImpl.h>
 #include <AssetLocatorMemoryImpl.h>
 #include <AssetLocatorDatabaseImpl.h>
-#include <AccessManagerImpl.h>
 #include <AssetMetadataMappingMemoryImpl.h>
+#include <AssetMetadataMappingDatabaseImpl.h>
 #include <RankedSearchImpl.h>
 #include <QueryInterfaceImpl.h>
 
@@ -85,6 +86,7 @@ main(int argc, char* argv[])
 
                 map< AssetMetadataMapping*, string > unit_asset_metadata_mappings;
                 unit_asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
+                //unit_asset_metadata_mappings[ new AssetMetadataMappingDatabaseImpl ] = "AssetMetadataMappingDatabaseImpl";
 
                 map< RankedSearch*, RankedSearchTestSuite::TestUtilities > unit_ranked_searches;
                 {
