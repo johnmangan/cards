@@ -44,9 +44,14 @@ namespace cards
       std::stringstream queryStream;
       std::vector<int> metaIDs;
 
+      std::cout << std::endl;
+
       for (AssetMetadataMapping::MetadataSet::iterator metaIter = metadataTags.begin(); metaIter != metadataTags.end(); ++metaIter)
       {
-	metaIDs.push_back(getMetaID((*metaIter)->getName()));
+	int id = getMetaID((*metaIter)->getName());
+	std::cout << "Metadata ID " << id << " added" << std::endl;
+
+	metaIDs.push_back(getMetaID((*metaIter)->getName()));	
       }
 
       for (std::vector<int>::iterator idIter = metaIDs.begin(); idIter != metaIDs.end(); idIter++)
@@ -60,6 +65,8 @@ namespace cards
       }
 
       queryStream << ";";
+
+      std::cout << std::endl << "Query String " << queryStream.str() << std::endl;
 
       sqlite3_stmt* statement;
     
