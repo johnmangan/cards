@@ -19,7 +19,7 @@ RankedSearchImpl::setAccessManager( AccessManager const* accessManager )
 }
 
 /*virtual*/ AssetTag*
-RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percent )
+RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percent /* = 1.0 */ )
 {
     if (mAccessManager == NULL)
         return NULL;
@@ -45,7 +45,7 @@ RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percen
     }
 
     // If we have an empty map, return NULL
-    if (metadataWeights.empty())
+    if (assetValues.empty())
         return NULL;
 
     // Created a vector of assets sorted by decreasing value
@@ -65,7 +65,7 @@ RankedSearchImpl::topRankedAsset( MetadataWeights metadataWeights, double percen
 
     // return top percent at random
     unsigned int choice_set_size = rankedAssets.size() * (1.0 - percent);
-    if (choice_set_size < 0)
+    if (choice_set_size < 1)
         choice_set_size = 1;
     if (choice_set_size > rankedAssets.size())
         choice_set_size = rankedAssets.size();

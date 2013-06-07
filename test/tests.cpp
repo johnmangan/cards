@@ -2,15 +2,21 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <AccessManagerImpl.h>
 #include <AssetLocatorMemoryImpl.h>
 #include <AssetLocatorDatabaseImpl.h>
-
-#include <AccessManagerImpl.h>
 #include <AssetMetadataMappingMemoryImpl.h>
+#include <AssetMetadataMappingDatabaseImpl.h>
 #include <RankedSearchImpl.h>
+#include <QueryInterfaceImpl.h>
+#include <DescriptionInterfaceImpl.h>
 
-#include "test-assetlocator.hpp"
 #include "test-accessmanager.hpp"
+#include "test-assetlocator.hpp"
+#include "test-assetmetadatamapping.hpp"
+#include "test-queryinterface.hpp"
+#include "test-rankedsearch.hpp"
+#include "test-descriptioninterface.hpp"
 
 #include "cpptest.h"
 
@@ -76,27 +82,55 @@ main(int argc, char* argv[])
 	try
 	{
                 // Setup
-                std::map< AssetLocator*, std::string > asset_locators;
-                asset_locators[ new AssetLocatorMemoryImpl ] = "AssetLocatorMemoryImpl";
-                asset_locators[ new AssetLocatorDatabaseImpl ] = "AssetLocatorDatabaseImpl";
+                map< AssetLocator*, string > unit_asset_locators;
+                unit_asset_locators[ new AssetLocatorMemoryImpl ] = "AssetLocatorMemoryImpl";
+                unit_asset_locators[ new AssetLocatorDatabaseImpl ] = "AssetLocatorDatabaseImpl";
 
-                std::map< AssetMetadataMapping*, std::string > asset_metadata_mappings;
-                asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
+                map< AssetMetadataMapping*, string > unit_asset_metadata_mappings;
+                unit_asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
+                unit_asset_metadata_mappings[ new AssetMetadataMappingDatabaseImpl ] = "AssetMetadataMappingDatabaseImpl";
 
-                std::map< RankedSearch*, std::string > ranked_searches;
-                ranked_searches[ new RankedSearchImpl ] = "RankedSearchImpl";
+                map< RankedSearch*, RankedSearchTestSuite::TestUtilities > unit_ranked_searches;
+                {
+                    RankedSearchTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "RankedSearchImpl{ AccessManagerImpl }";
+                    testUtilities.accessManager = new AccessManagerImpl;
 
-                std::map< AccessManager*, AccessManagerTestSuite::TestUtilities > access_managers;
-                for (std::map< AssetLocator*, std::string >::iterator al_it = asset_locators.begin();
-                     asset_locators.end() != al_it;
+                    RankedSearch* rs = new RankedSearchImpl;
+                    rs->setAccessManager( testUtilities.accessManager );
+
+                    unit_ranked_searches[ rs ] = testUtilities;
+                }
+
+
+                map< RankedSearch*, RankedSearchTestSuite::TestUtilities > integration_ranked_searches;
+                for (map< AssetMetadataMapping*, string >::iterator amm_it = unit_asset_metadata_mappings.begin();
+                    unit_asset_metadata_mappings.end() != amm_it;
+                    ++amm_it)
+                {
+                    RankedSearchTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "RankedSearchImpl{ AccessManagerImpl(NULL, ";
+                    testUtilities.className += amm_it->second;
+		    testUtilities.className += ", NULL) }";
+                    testUtilities.accessManager = new AccessManagerImpl(NULL, amm_it->first, NULL);
+
+                    RankedSearch* rs = new RankedSearchImpl;
+                    rs->setAccessManager( testUtilities.accessManager );
+
+                    integration_ranked_searches[ rs ] = testUtilities;
+                }
+
+                map< AccessManager*, AccessManagerTestSuite::TestUtilities > unit_access_managers;
+                for (map< AssetLocator*, string >::iterator al_it = unit_asset_locators.begin();
+                     unit_asset_locators.end() != al_it;
                      ++al_it)
                 {
-                    for (std::map< AssetMetadataMapping*, std::string >::iterator amm_it = asset_metadata_mappings.begin();
-                         asset_metadata_mappings.end() != amm_it;
+                    for (map< AssetMetadataMapping*, string >::iterator amm_it = unit_asset_metadata_mappings.begin();
+                         unit_asset_metadata_mappings.end() != amm_it;
                          ++amm_it)
                     {
-                        for (std::map< RankedSearch*, std::string >::iterator rs_it = ranked_searches.begin();
-                             ranked_searches.end() != rs_it;
+                        for (map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator rs_it = unit_ranked_searches.begin();
+                             unit_ranked_searches.end() != rs_it;
                              ++rs_it)
                         {
                             AccessManagerTestSuite::TestUtilities testUtilities;
@@ -108,41 +142,182 @@ main(int argc, char* argv[])
                             testUtilities.className += " ";
                             testUtilities.className += amm_it->second;
                             testUtilities.className += " ";
-                            testUtilities.className += rs_it->second;
-                            testUtilities.className += "}";
+                            testUtilities.className += rs_it->second.className;
+                            testUtilities.className += " }";
 
                             AccessManager* am = new AccessManagerImpl( al_it->first, amm_it->first, rs_it->first );
-                            access_managers[ am ] = testUtilities; 
+                            unit_access_managers[ am ] = testUtilities; 
                         }
                     }
+                }
+
+                map< IQuery*, QueryInterfaceTestSuite::TestUtilities > unit_query_interfaces;
+                {
+                    QueryInterfaceTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "IQueryImpl{ AccessManagerImpl }";
+                    testUtilities.accessManager = new AccessManagerImpl;
+
+                    unit_query_interfaces[ new IQueryImpl( testUtilities.accessManager ) ] = testUtilities;
+                }
+
+                map< IQuery*, QueryInterfaceTestSuite::TestUtilities > integration_query_interfaces;
+                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator am_it = unit_access_managers.begin();
+                    unit_access_managers.end() != am_it;
+                    ++am_it)
+                {
+                    QueryInterfaceTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "QueryInterfaceImpl{ ";
+                    testUtilities.className += am_it->second.className;
+                    testUtilities.className += " }";
+                    testUtilities.accessManager = am_it->first;
+
+                    IQuery* qi = new IQueryImpl( testUtilities.accessManager );
+
+                    integration_query_interfaces[ qi ] = testUtilities;
+                }
+
+                 map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities > unit_description_interfaces;
+                {
+                    DescriptionInterfaceTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "IDescriptionImpl{ AccessManagerImpl }";
+                    testUtilities.accessManager = new AccessManagerImpl;
+
+                    unit_description_interfaces[ new IDescriptionImpl( testUtilities.accessManager ) ] = testUtilities;
+                }
+
+                 map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities > integration_description_interfaces;
+                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator am_it = unit_access_managers.begin();
+                    unit_access_managers.end() != am_it;
+                    ++am_it)
+                {
+                    DescriptionInterfaceTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "IDescriptionImpl{ ";
+                    testUtilities.className += am_it->second.className;
+		    testUtilities.className += " }";
+                    testUtilities.accessManager = am_it->first;
+
+                    IDescription* di = new IDescriptionImpl( testUtilities.accessManager );
+
+                    integration_description_interfaces[ di ] = testUtilities;
                 }
 
 		// Demonstrates the ability to use multiple test suites
 		Test::Suite ts;
 
                 // + Asset Locator Tests
-                for (std::map< AssetLocator*, std::string >::iterator it = asset_locators.begin();
-                     asset_locators.end() != it;
+                for (map< AssetLocator*, string >::iterator it = unit_asset_locators.begin();
+                     unit_asset_locators.end() != it;
                      ++it)
                 {
                     ts.add(auto_ptr<Test::Suite>(new AssetLocatorTestSuite( it->first, it->second )));
 		}
 
+                // + Asset Metadata Mapping Tests
+                for (map< AssetMetadataMapping*, string >::iterator it = unit_asset_metadata_mappings.begin();
+                     unit_asset_metadata_mappings.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new AssetMetadataMappingTestSuite( it->first, it->second )));
+		}
+
+                // + Ranked Search Tests
+                for (map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = unit_ranked_searches.begin();
+                     unit_ranked_searches.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new RankedSearchTestSuite( it->first, it->second )));
+		}
+
+                for (map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = integration_ranked_searches.begin();
+                     integration_ranked_searches.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new RankedSearchTestSuite( it->first, it->second )));
+		}
+
                 // + Access Manager Tests
-                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = access_managers.begin();
-                     access_managers.end() != it;
+                for (map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = unit_access_managers.begin();
+                     unit_access_managers.end() != it;
                      ++it)
                 {
                     ts.add(auto_ptr<Test::Suite>(new AccessManagerTestSuite( it->first, it->second )));
 		}
+
+                // + Query Interface Tests
+                for (map< IQuery*, QueryInterfaceTestSuite::TestUtilities >::iterator it = unit_query_interfaces.begin();
+                     unit_query_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new QueryInterfaceTestSuite( it->first, it->second )));
+		}
+
+
+                for (map< IQuery*, QueryInterfaceTestSuite::TestUtilities >::iterator it = integration_query_interfaces.begin();
+                     integration_query_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new QueryInterfaceTestSuite( it->first, it->second )));
+		}
+
+       // + Description Interface Tests
+                for (map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities >::iterator it = unit_description_interfaces.begin();
+                     unit_description_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new DescriptionInterfaceTestSuite( it->first, it->second )));
+		}
+
+
+                for (map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities >::iterator it = integration_description_interfaces.begin();
+                     integration_description_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new DescriptionInterfaceTestSuite( it->first, it->second )));
+		}
+
 
 		// Run the tests
 		auto_ptr<Test::Output> output(cmdline(argc, argv));
 		ts.run(*output, true);
 
                 // Teardown
-                for (std::map< AssetLocator*, std::string >::iterator it = asset_locators.begin();
-                     asset_locators.end() != it;
+                for (map< AssetLocator*, string >::iterator it = unit_asset_locators.begin();
+                     unit_asset_locators.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (map< AssetMetadataMapping*, string >::iterator it = unit_asset_metadata_mappings.begin();
+                     unit_asset_metadata_mappings.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = unit_ranked_searches.begin();
+                     unit_ranked_searches.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (map< RankedSearch*, RankedSearchTestSuite::TestUtilities >::iterator it = integration_ranked_searches.begin();
+                     integration_ranked_searches.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator it = unit_access_managers.begin();
+                     unit_access_managers.end() != it;
+                     ++it)
+                {
+                    delete it->first;
+                }
+
+                for (map< IQuery*, QueryInterfaceTestSuite::TestUtilities >::iterator it = unit_query_interfaces.begin();
+                     unit_query_interfaces.end() != it;
                      ++it)
                 {
                     delete it->first;
