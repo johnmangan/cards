@@ -23,16 +23,30 @@ namespace cards
     AssetMetadataMappingSQLLiteDatabase::addMetadataToAsset(std::string assetName, std::string metadataTagName)
     {
       sqlite3_stmt* statement;
-//      int metaID = getMetaID(metadataTagName);
+      
+      int metaID = getMetaID( metadataTagName );
+
+      if (-1 == metaID)
+      {
+          sqlite3_prepare_v2(database, stmt_insert_mtable.c_str(), -1, &statement, 0);
+          sqlite3_bind_text(statement, 1, metadataTagName.c_str(), metadataTagName.size(), SQLITE_STATIC);
+
+          int result = sqlite3_step(statement);
+
+          if (result != SQLITE_DONE)
+            std::cerr << "Error inserting Metadata into database" << std::endl;
+      }
+
+      metaID = getMetaID(metadataTagName);
 
       sqlite3_prepare_v2(database, stmt_insert_atable.c_str(), -1, &statement, 0);
-      //sqlite3_bind_int(statement, 1, metaID);
-      sqlite3_bind_text(statement, 1, assetName.c_str(), assetName.size(), SQLITE_STATIC);
+      sqlite3_bind_int(statement, 1, metaID);
+      sqlite3_bind_text(statement, 2, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 
       int result = sqlite3_step(statement);
 
       if (result != SQLITE_DONE)
-	std::cerr << "Error deleting from database" << std::endl;
+	std::cerr << "Error inserting Asset into  database" << std::endl;
 
       sqlite3_finalize(statement);
     }
@@ -44,13 +58,8 @@ namespace cards
       std::stringstream queryStream;
       std::vector<int> metaIDs;
 
-      std::cout << std::endl;
-
       for (AssetMetadataMapping::MetadataSet::iterator metaIter = metadataTags.begin(); metaIter != metadataTags.end(); ++metaIter)
       {
-	int id = getMetaID((*metaIter)->getName());
-	std::cout << "Metadata ID " << id << " added" << std::endl;
-
 	metaIDs.push_back(getMetaID((*metaIter)->getName()));	
       }
 
@@ -60,13 +69,11 @@ namespace cards
 
 	if (idIter != metaIDs.end()-1)
 	{
-	  queryStream << " INTERSECTION ";
+	  queryStream << " INTERSECT ";
 	}
       }
 
       queryStream << ";";
-
-      std::cout << std::endl << "Query String " << queryStream.str() << std::endl;
 
       sqlite3_stmt* statement;
     
@@ -106,7 +113,7 @@ namespace cards
       int result = sqlite3_step(statement);
 
       if (result != SQLITE_DONE)
-	std::cerr << "Error deleting from database" << std::endl;
+	std::cerr << "Error removing asset from database" << std::endl;
 
       sqlite3_finalize(statement);
     }
@@ -124,7 +131,7 @@ namespace cards
       int result = sqlite3_step(statement);
 
       if (result != SQLITE_DONE)
-	std::cerr << "Error deleting from database" << std::endl;
+	std::cerr << "Error remove metadata from asset database" << std::endl;
 
       sqlite3_finalize(statement);
     }
