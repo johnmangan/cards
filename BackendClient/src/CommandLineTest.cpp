@@ -69,6 +69,7 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 	string mAssetName, mOldAssetName, mNewAssetName, mMetadataName,mLocation;
 	unsigned int pLOD;
+	string LODstring; 
 
 	vector<string> LODVector;
 
@@ -111,7 +112,19 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 		
 
-		cin>>mAssetName>>pLOD>>mLocation;
+		cin>>mAssetName>>LODstring>>mLocation;
+
+
+		if (!is_number(LODstring))
+		{
+			cout << "Incorrect input: LOD is an int" << endl; 
+			break; 
+		}
+		else
+		{
+			pLOD = atoi(inputString.c_str()); 
+		}
+
 
 		di->addLevelOfDetail( mAssetName, pLOD, mLocation); 
 
@@ -123,7 +136,18 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 		cout<<"Please enter assetName and lod separated by space"<<endl;
 
-		cin>>mAssetName>>pLOD;
+		cin>>mAssetName>>LODstring;
+
+		if (!is_number(LODstring))
+		{
+			cout << "Incorrect input: LOD is an int" << endl; 
+			break; 
+		}
+		else
+		{
+			pLOD = atoi(inputString.c_str()); 
+		}
+
 
 	
 		 di->removeLevelOfDetail( mAssetName,pLOD);
@@ -135,7 +159,18 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
-		cin>>mAssetName>>pLOD>>mLocation;
+		cin>>mAssetName>>LODstring>>mLocation;
+
+		if (!is_number(LODstring))
+		{
+			cout << "Incorrect input: LOD is an int" << endl; 
+			break; 
+		}
+		else
+		{
+			pLOD = atoi(inputString.c_str()); 
+		}
+
 
 		di->updateLevelOfDetail( mAssetName, pLOD, mLocation);
 
