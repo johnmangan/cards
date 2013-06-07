@@ -1,13 +1,11 @@
-#include <AccessManager.h>
-
-#include <AssetLocator.h>
 #include <AssetMetadataMapping.h>
-#include <RankedSearch.h>
 
 #include <MetadataTag.h>
 #include <MetadataTagImpl.h>
 
 #include "cpptest.h"
+
+#include <algorithm>
 
 class AssetMetadataMappingTestSuite : public Test::Suite
 {
@@ -35,6 +33,17 @@ public:
         TEST_ADD(AssetMetadataMappingTestSuite::removeAsset)     
     }
 
+    ~AssetMetadataMappingTestSuite()
+    {
+        delete mt0;
+        delete mt1;
+        delete mt2;
+        delete mt3;
+        delete at1;
+        delete at2;
+        delete at3;
+    }
+
 private:
 
     cards::AssetMetadataMapping* mAssetMetadataMapping;
@@ -55,7 +64,6 @@ private:
        cards::AssetMetadataMapping::AssetSet    expectedAssetSet;
        cards::AssetMetadataMapping::MetadataSet inputMetadataSet;
 
-       inputMetadataSet.empty();
        inputMetadataSet.insert(mt0);
        
        TEST_ASSERT_MSG( mAssetMetadataMapping->describedAssets(inputMetadataSet) == expectedAssetSet,
@@ -82,6 +90,7 @@ private:
        cards::AssetMetadataMapping::AssetSet    expectedAssetSet;
        cards::AssetMetadataMapping::MetadataSet inputMetadataSet;
      
+       inputMetadataSet.insert(mt1);
        mAssetMetadataMapping->unaugmentAsset(at1,mt1);
 
        TEST_ASSERT_MSG( mAssetMetadataMapping->describedAssets(inputMetadataSet) == expectedAssetSet,
@@ -154,7 +163,6 @@ private:
 
        expectedAssetSet1.insert(at3);
 
-
        mAssetMetadataMapping->augmentAsset(at1,mt1);
        mAssetMetadataMapping->augmentAsset(at2,mt2);
        mAssetMetadataMapping->augmentAsset(at3,mt1);
@@ -163,17 +171,17 @@ private:
        mAssetMetadataMapping->removeAsset(at1);
        
        TEST_ASSERT_MSG( mAssetMetadataMapping->describedAssets(inputMetadataSet1) == expectedAssetSet1,
-            (mClassMsg + ":\t Failed to return proper Asset Set 1").c_str() );
+            (mClassMsg + ":\t Failed to remove AssetTag 1").c_str() );
 
        mAssetMetadataMapping->removeAsset(at2);
 
        TEST_ASSERT_MSG( mAssetMetadataMapping->describedAssets(inputMetadataSet2) == expectedAssetSet1,
-            (mClassMsg + ":\t Failed to return proper Asset Set 2").c_str() );
+            (mClassMsg + ":\t Failed to remove AssetTag 2").c_str() );
 
        mAssetMetadataMapping->removeAsset(at3);
 
        TEST_ASSERT_MSG( mAssetMetadataMapping->describedAssets(inputMetadataSet3) == expectedAssetSet2,
-            (mClassMsg + ":\t Failed to return proper EmptySet").c_str() );
+            (mClassMsg + ":\t Failed to remove AssetTag 3").c_str() );
 
     }
 
