@@ -176,21 +176,21 @@ main(int argc, char* argv[])
                     integration_query_interfaces[ qi ] = testUtilities;
                 }
 
-                 map< IDescription*, IDescriptionTestSuite::TestUtilities > unit_description_interfaces;
+                 map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities > unit_description_interfaces;
                 {
-                    IDescriptionTestSuite::TestUtilities testUtilities;
+                    DescriptionInterfaceTestSuite::TestUtilities testUtilities;
                     testUtilities.className = "IDescriptionImpl{ AccessManagerImpl }";
                     testUtilities.accessManager = new AccessManagerImpl;
 
                     unit_description_interfaces[ new IDescriptionImpl( testUtilities.accessManager ) ] = testUtilities;
                 }
 
-                 map< IDescription*, IDescriptionTestSuite::TestUtilities > integration_description_interfaces;
+                 map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities > integration_description_interfaces;
                 for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator am_it = unit_access_managers.begin();
                     unit_access_managers.end() != am_it;
                     ++am_it)
                 {
-                    IDescriptionTestSuite::TestUtilities testUtilities;
+                    DescriptionInterfaceTestSuite::TestUtilities testUtilities;
                     testUtilities.className = "IDescriptionImpl{ ";
                     testUtilities.className += am_it->second.className;
 		    testUtilities.className += " }";
@@ -260,19 +260,19 @@ main(int argc, char* argv[])
 		}
 
        // + Description Interface Tests
-                for (map< IDescription*, IDescriptionTestSuite::TestUtilities >::iterator it = unit_description_interfaces.begin();
+                for (map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities >::iterator it = unit_description_interfaces.begin();
                      unit_description_interfaces.end() != it;
                      ++it)
                 {
-                    ts.add(auto_ptr<Test::Suite>(new IDescriptionTestSuite( it->first, it->second )));
+                    ts.add(auto_ptr<Test::Suite>(new DescriptionInterfaceTestSuite( it->first, it->second )));
 		}
 
 
-                for (map< IDescription*, IDescriptionTestSuite::TestUtilities >::iterator it = integration_description_interfaces.begin();
+                for (map< IDescription*, DescriptionInterfaceTestSuite::TestUtilities >::iterator it = integration_description_interfaces.begin();
                      integration_description_interfaces.end() != it;
                      ++it)
                 {
-                    ts.add(auto_ptr<Test::Suite>(new IDescriptionTestSuite( it->first, it->second )));
+                    ts.add(auto_ptr<Test::Suite>(new DescriptionInterfaceTestSuite( it->first, it->second )));
 		}
 
 

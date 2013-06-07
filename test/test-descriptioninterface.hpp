@@ -7,7 +7,7 @@ using namespace std;
 
 #include "cpptest.h"
 
-class IDescriptionTestSuite : public Test::Suite
+class DescriptionInterfaceTestSuite : public Test::Suite
 {
 public:
 
@@ -17,7 +17,7 @@ public:
         cards::AccessManager* accessManager;
     };
 
-    IDescriptionTestSuite( cards::IDescription* iDescription, TestUtilities testUtilities)
+    DescriptionInterfaceTestSuite( cards::IDescription* iDescription, TestUtilities testUtilities)
     : mIDescription (iDescription),
       mAccessManager( testUtilities.accessManager )
     {
@@ -43,21 +43,21 @@ public:
         at2    = new cards::AssetTagImpl(at2_s);
         at3    = new cards::AssetTagImpl(at3_s);
 
-        TEST_ADD(IDescriptionTestSuite::addAndRetrieveLOD)
-        TEST_ADD(IDescriptionTestSuite::addAndRetrieveSecondLOD)
-        TEST_ADD(IDescriptionTestSuite::removeAndRetrieveLOD)
-        TEST_ADD(IDescriptionTestSuite::updateAndRetrieveLOD)
-        TEST_ADD(IDescriptionTestSuite::removeToCleanupAsset)
+        TEST_ADD(DescriptionInterfaceTestSuite::addAndRetrieveLOD)
+        TEST_ADD(DescriptionInterfaceTestSuite::addAndRetrieveSecondLOD)
+        TEST_ADD(DescriptionInterfaceTestSuite::removeAndRetrieveLOD)
+        TEST_ADD(DescriptionInterfaceTestSuite::updateAndRetrieveLOD)
+        TEST_ADD(DescriptionInterfaceTestSuite::removeToCleanupAsset)
 
-        TEST_ADD(IDescriptionTestSuite::augmentMD1toAT1)      
-        TEST_ADD(IDescriptionTestSuite::unaugmentMD1toAT1)     
-        TEST_ADD(IDescriptionTestSuite::augmentMany)     
-        TEST_ADD(IDescriptionTestSuite::unaugmentMany)     
-        TEST_ADD(IDescriptionTestSuite::removeAsset)     
+        TEST_ADD(DescriptionInterfaceTestSuite::augmentMD1toAT1)      
+        TEST_ADD(DescriptionInterfaceTestSuite::unaugmentMD1toAT1)     
+        TEST_ADD(DescriptionInterfaceTestSuite::augmentMany)     
+        TEST_ADD(DescriptionInterfaceTestSuite::unaugmentMany)     
+        TEST_ADD(DescriptionInterfaceTestSuite::removeAsset)     
     }
     
 
-    ~IDescriptionTestSuite()
+    ~DescriptionInterfaceTestSuite()
     {
         delete mt0;
         delete mt1;
