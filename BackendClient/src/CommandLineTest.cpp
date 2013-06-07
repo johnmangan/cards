@@ -45,7 +45,8 @@ int main()
 	cout << "5) getLevelOfDetail" << endl;
 	cout << "6) augmentAsset" << endl;
 	cout << "7) unaugmentAsset" << endl;
-	cout << "8) Quit" << endl;
+	cout << "8) Print Menu" << endl; 
+	cout << "9) Quit" << endl;
 
 	while (true)
 	{
@@ -58,14 +59,15 @@ int main()
 
 		case 1:
 
+		cout << "removeAsset" << endl;
 
-			cout << "removeAsset( std::string assetName )" << endl;
+		//	cout << "removeAsset( std::string assetName )" << endl;
 
 			cout << "Please enter assetName" << endl;
 
 			cin >> pAssetName;
 
-			cout << "Calling removeAsset(" + pAssetName + ")" << endl;
+		//	cout << "Calling removeAsset(" + pAssetName + ")" << endl;
 
 
 		di->removeAsset( pAssetName);
@@ -75,13 +77,15 @@ int main()
 		
 		case 2:
 
-			cout << "addLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
+cout << "addLevelOfDetail" << endl; 
+
+			//cout << "addLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
 
 			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
 			cin>>pAssetName>>pLOD>>pLocation;
 
-			cout << "Calling addLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
+		//	cout << "Calling addLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
 
 
 		di->addLevelOfDetail( pAssetName, pLOD, pLocation); 
@@ -92,6 +96,8 @@ int main()
 
 		case 3:
 
+cout << "removeLevelOfDetail" << endl; 
+
 
 			cout << "removeLevelOfDetail( std::string assetName, unsigned int lod )" << endl;
 
@@ -100,7 +106,7 @@ int main()
 
 			cin>>pAssetName>>pLOD;
 
-			cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << ")" << endl;
+		//	cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << ")" << endl;
 
 
 		 di->removeLevelOfDetail( pAssetName,pLOD);
@@ -113,13 +119,15 @@ int main()
 
 		case 4:
 
-			cout << "updateLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
+cout << "updateLevelOfDetail" << endl; 
+
+			//cout << "updateLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
 
 			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
 			cin>>pAssetName>>pLOD>>pLocation;
 
-			cout << "Calling updateLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
+		//	cout << "Calling updateLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
 
 
 
@@ -130,11 +138,14 @@ int main()
 
 
 		case 5:
-			cout << "getLevelsOfDetail( std::string assetName )" << endl;
+
+cout << "getLevelsOfDetail" << endl; 
+
+		//	cout << "getLevelsOfDetail( std::string assetName )" << endl;
 
 			cout<<"Please enter assetName "<<endl;
 			cin>>pAssetName;
-			cout<< "Calling getLevelsOfDetail(" << pAssetName << ")" << endl;
+		//	cout<< "Calling getLevelsOfDetail(" << pAssetName << ")" << endl;
 
 
 
@@ -144,38 +155,62 @@ int main()
 		LODIterator != LODVector.end();
 		LODIterator++)
 	{
-	    cout<< "Filepath: "  << *LODIterator<<endl;    
+	    cout<< LODIterator - LODVector.begin() << " " << *LODIterator<<endl;    
 	}
 
 			break;
 
 		case 6:
-			cout<<"augmentAsset( std::string assetName, std::string metadataName )"<<endl;
+
+cout << "augmentAsset" << endl; 
+
+		//	cout<<"augmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
 			cin>>pAssetName>>pMetadataName;
-			cout<< "Calling augmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
+		//	cout<< "Calling augmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
 
 	  di->augmentAsset( pAssetName, pMetadataName );
 
 			break;
 
 		case 7:
-			cout<<"unaugmentAsset( std::string assetName, std::string metadataName )"<<endl;
+			
+cout << "unaugmentAsset" << endl; 
+//cout<<"unaugmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
 			cin>>pAssetName>>pMetadataName;
-			cout<< "Calling unaugmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
+		//	cout<< "Calling unaugmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
 
 		 di->unaugmentAsset( pAssetName, pMetadataName );
 
 			break;
+
 		case 8:
+
+			cout << "1) removeAsset" << endl;
+			cout << "2) addLevelOfDetail" << endl;
+			cout << "3) removeLevelOfDetail" << endl;
+			cout << "4) updateLevelOfDetail" << endl;
+			cout << "5) getLevelOfDetail" << endl;
+			cout << "6) augmentAsset" << endl;
+			cout << "7) unaugmentAsset" << endl;
+			cout << "8) Print Menu" << endl; 
+			cout << "9) Quit" << endl;
+
+			break; 
+
+		case 9:
 
 			cout << "Quitting CommandLineTest" << endl;
 			exit(0);
 
 			break;
+
+		
+
+			 
 
 		default:
 
