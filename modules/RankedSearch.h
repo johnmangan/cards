@@ -21,7 +21,7 @@ public:
     setAccessManager( AccessManager const* accessManager ) = 0;
 
     virtual AssetTag*
-    topRankedAsset( MetadataWeights metadataWeights, double percent ) = 0;
+    topRankedAsset( MetadataWeights metadataWeights, double percent = 1.0 ) = 0;
 };
 
 }

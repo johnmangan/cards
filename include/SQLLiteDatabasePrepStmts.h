@@ -6,7 +6,7 @@
 namespace cards
 {
 
-  const std::string stmt_create = "CREATE TABLE AssetLocator (Name STRING, LOD INTEGER, Location STRING);";
+  const std::string stmt_create = "CREATE TABLE IF NOT EXISTS AssetLocator (Name STRING, LOD INTEGER, Location STRING);";
   const std::string stmt_delete_noid = "DELETE FROM AssetLocator WHERE Name = ?;";
   const std::string stmt_delete_id = "DELETE FROM AssetLocator WHERE Name = ? AND LOD = ?;";
   const std::string stmt_insert = "INSERT INTO AssetLocator VALUES(?,?,?);";

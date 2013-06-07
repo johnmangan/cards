@@ -2,8 +2,14 @@
 
 #include <AssetTagImpl.h>
 #include <MetadataTagImpl.h>
+#include <AccessManagerImpl.h>
 
 namespace cards {
+
+IQueryImpl::IQueryImpl()
+{
+    mAccessManager = new AccessManagerImpl;
+}
 
 IQueryImpl::IQueryImpl( AccessManager* accessManager )
 : mAccessManager( accessManager )
@@ -25,10 +31,12 @@ IQueryImpl::getFilepaths( std::map< std::string, int > metadataWeights, double p
 
     AssetTag* assetTag = mAccessManager->getRankedSearch()->topRankedAsset( tagWeights, percent );
 
-    std::vector< std::string > filepaths = mAccessManager->getAssetLocator()->getFilepath( assetTag );
+    std::vector< std::string > filepaths;
+
+    if (assetTag)
+        filepaths = mAccessManager->getAssetLocator()->getFilepath( assetTag );
 
     // cleanup
-    delete assetTag;
     for (std::map< MetadataTag*, int >::iterator it = tagWeights.begin();
         tagWeights.end() != it;
         ++it)
