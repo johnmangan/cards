@@ -5,16 +5,16 @@
 #include <RankedSearch.h>
 
 // Following 3 included headers allow default ctor to create default members
-#include <AssetLocatorMemoryImpl.h>
-#include <AssetMetadataMappingMemoryImpl.h>
+#include <AssetLocatorDatabaseImpl.h>
+#include <AssetMetadataMappingDatabaseImpl.h>
 #include <RankedSearchImpl.h>
 
 namespace cards {
 
 AccessManagerImpl::AccessManagerImpl()
 {
-    mAssetLocator = new AssetLocatorMemoryImpl;
-    mAssetMetadataMapping = new AssetMetadataMappingMemoryImpl;
+    mAssetLocator = new AssetLocatorDatabaseImpl;
+    mAssetMetadataMapping = new AssetMetadataMappingDatabaseImpl;
     mRankedSearch = new RankedSearchImpl;
 }
 
