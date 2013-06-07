@@ -85,6 +85,10 @@ void CommandLineTest::handleInput(unsigned int& input)
 	{
 		input = 8;
 	}
+	else
+	{
+		input = atoi(inputString.c_str()); 
+	}
 
         if (input < options.size())
             cout << options[input] << endl << setfill('-') << setw(options[input].length()) << "-" << endl;
@@ -104,6 +108,8 @@ void CommandLineTest::handleInput(unsigned int& input)
 		case 1:
 
 		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
+
+		
 
 		cin>>mAssetName>>pLOD>>mLocation;
 
