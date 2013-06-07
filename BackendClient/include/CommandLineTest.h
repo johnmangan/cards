@@ -3,6 +3,9 @@
 
 #include <DescriptionInterface.h>
 
+#include <string>
+#include <vector>
+
 namespace cards {
 
 class CommandLineTest
@@ -10,9 +13,10 @@ class CommandLineTest
 public:
     CommandLineTest( IDescription* iDesc );
     void printMenu();
-    void handleInput( int& input );
+    void handleInput( unsigned int& input );
 private:
     IDescription* di;
+    std::vector< std::string > options;
 };
 
 }

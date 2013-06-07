@@ -15,9 +15,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <sstream>
-#include <string>
 #include <stdlib.h> 
-#include <vector> 
+#include <iomanip>
 
 using namespace cards;
 using namespace std; 
@@ -25,23 +24,40 @@ using namespace std;
 CommandLineTest::CommandLineTest( IDescription* iDesc )
 : di( iDesc )
 {
+    options.push_back("Remove Asset");
+    options.push_back("Add LOD to Asset");
+    options.push_back("Remove LOD from Asset");
+    options.push_back("Update LOD of Asset");
+    options.push_back("Get LODs of Asset");
+    options.push_back("Augment Asset with Metadata");
+    options.push_back("Unaugment Metadata from Asset");
+    options.push_back("Quit");
 }
 
 void CommandLineTest::printMenu()
 {
+    unsigned int longest_option = 0;
+    for (unsigned int i = 0; i < options.size(); ++i)
+        if (options[i].length() > longest_option)
+            longest_option = options[i].length();
 
-	cout << "1) remove Asset" << "\t" << "Get LODs of Assets" <<  endl;
-	cout << "2) add LOD to Asset" << endl;
-	cout << "3) remove LOD from Asset" << endl;
-	cout << "4) update LOD of Asset" << endl;
-	cout << "5) getLevelOfDetail" << endl;
-	cout << "6) augmentAsset" << endl;
-	cout << "7) unaugmentAsset" << endl;
-	//cout << "8) Print Menu" << endl; 
-	cout << "8) Quit" << endl;
+    for (unsigned int i = 0; i < (options.size() + 1) / 2; ++i)
+    {
+        cout << '|' << i << "| " << left << setfill(' ') << setw(longest_option) << options[i] << ' ';
+
+        unsigned int j = i + options.size()/2;
+        if (j == options.size())
+        {
+            cout << endl;
+            break;
+        }
+
+        cout << '|' << j << "| " << left << setfill(' ') << setw(longest_option) << options[j] << endl;
+    }
+    cout << endl;
 }
 
-void CommandLineTest::handleInput(int & input)
+void CommandLineTest::handleInput(unsigned int& input)
 {
 
 	string mAssetName, mOldAssetName, mNewAssetName, mMetadataName,mLocation;
@@ -56,11 +72,12 @@ void CommandLineTest::handleInput(int & input)
 
 	cin >> input;
 
+        if (input < options.size())
+            cout << options[input] << endl << setfill('-') << setw(options[input].length()) << "-" << endl;
+
 	switch(input)
 	{
-		case 1:
-
-		cout << "removeAsset" << endl;
+		case 0:
 
 		cout << "Please enter assetName" << endl;
 
@@ -70,24 +87,19 @@ void CommandLineTest::handleInput(int & input)
 
 		break;
 
-		case 2:
-
-		cout << "addLevelOfDetail" << endl; 
+		case 1:
 
 		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
 		cin>>mAssetName>>pLOD>>mLocation;
 
-cout << di <<  endl; 
 		di->addLevelOfDetail( mAssetName, pLOD, mLocation); 
 
 
 
 		break;
 
-		case 3:
-
-		cout << "removeLevelOfDetail" << endl; 
+		case 2:
 
 		cout<<"Please enter assetName and lod separated by space"<<endl;
 
@@ -99,11 +111,8 @@ cout << di <<  endl;
 		break;
 
 
-		case 4:
+		case 3:
 
-		cout << "updateLevelOfDetail" << endl; 
-
-			
 		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
 		cin>>mAssetName>>pLOD>>mLocation;
@@ -112,9 +121,7 @@ cout << di <<  endl;
 
 		break;
 
-		case 5:
-
-		cout << "getLevelsOfDetail" << endl; 
+		case 4:
 
 		cout<<"Please enter assetName "<<endl;
 		cin>>mAssetName;
@@ -124,7 +131,6 @@ cout << di <<  endl;
 		LODVector =  di->getLevelsOfDetail( mAssetName );
 
 
-cout << di << "\t" << LODVector.size() << endl; 
 		for(unsigned int i = 0; i < LODVector.size(); ++i)
 		{
 		    cout<< i << ": " << LODVector[i]<<endl;    
@@ -132,9 +138,7 @@ cout << di << "\t" << LODVector.size() << endl;
 
 		break;
 
-		case 6:
-
-		cout << "augmentAsset" << endl; 
+		case 5:
 
 		cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
@@ -144,11 +148,8 @@ cout << di << "\t" << LODVector.size() << endl;
 
 		break;
 
-		case 7:
-			
-		cout << "unaugmentAsset" << endl; 
-		
-cout<<"Please enter assetName and metadataName seperated by space"<<endl;
+		case 6:
+		cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
 		cin>>mAssetName>>mMetadataName;
 		
@@ -156,9 +157,8 @@ cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
 		break;
 		
-		case 8:
+		case 7:
 
-			cout << "Quitting CommandLine" << endl;
 			exit(0);
 
 			break; 
@@ -175,7 +175,7 @@ int main()
 {
 	CommandLineTest command_line_test( new IDescriptionImpl() ); 
 
-	int input; 
+	unsigned int input; 
 	//int QuitChoice = 9; 
 	while(true)
 	{
@@ -184,205 +184,3 @@ int main()
 	} 
 }
 
-
-/*
-
-int main()
-{
-
-	int input;
-	string mAssetName, mOldAssetName, mNewAssetName, mMetadataName,mLocation;
-	unsigned int pLOD;
-
-	vector<string> LODVector;
-	vector<string>::iterator LODIterator;
-
-        //AccessManagerImpl* am = new AccessManagerImpl ();
-	IDescriptionImpl* di = new IDescriptionImpl(); 
-
-	cout << "1) removeAsset" << endl;
-	cout << "2) addLevelOfDetail" << endl;
-	cout << "3) removeLevelOfDetail" << endl;
-	cout << "4) updateLevelOfDetail" << endl;
-	cout << "5) getLevelOfDetail" << endl;
-	cout << "6) augmentAsset" << endl;
-	cout << "7) unaugmentAsset" << endl;
-	cout << "8) Print Menu" << endl; 
-	cout << "9) Quit" << endl;
-
-	while (true)
-	{
-		cout << "Enter a command:" << endl;
-
-		cin >> input;
-
-		switch(input)
-		{
-
-		case 1:
-
-		cout << "removeAsset" << endl;
-
-		//	cout << "removeAsset( std::string assetName )" << endl;
-
-			cout << "Please enter assetName" << endl;
-
-			cin >> mAssetName;
-
-		//	cout << "Calling removeAsset(" + mAssetName + ")" << endl;
-
-
-		di->removeAsset( mAssetName);
-
-			break;
-
-		
-		case 2:
-
-cout << "addLevelOfDetail" << endl; 
-
-			//cout << "addLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
-
-			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
-
-			cin>>mAssetName>>pLOD>>mLocation;
-
-		//	cout << "Calling addLevelOfDetail(" << mAssetName <<"," << pLOD << "," << mLocation <<")" << endl;
-
-
-		di->addLevelOfDetail( mAssetName, pLOD, mLocation); 
-
-
-
-			break;
-
-		case 3:
-
-cout << "removeLevelOfDetail" << endl; 
-
-
-			cout << "removeLevelOfDetail( std::string assetName, unsigned int lod )" << endl;
-
-
-			cout<<"Please enter assetName and lod separated by space"<<endl;
-
-			cin>>mAssetName>>pLOD;
-
-		//	cout << "Calling removeLevelOfDetail(" << mAssetName <<"," << pLOD << ")" << endl;
-
-
-		 di->removeLevelOfDetail( mAssetName,pLOD);
-
-
-
-
-			break;
-
-
-		case 4:
-
-cout << "updateLevelOfDetail" << endl; 
-
-			//cout << "updateLevelOfDetail( std::string assetName, unsigned int lod, std::string location )" << endl;
-
-			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
-
-			cin>>mAssetName>>pLOD>>mLocation;
-
-		//	cout << "Calling updateLevelOfDetail(" << mAssetName <<"," << pLOD << "," << mLocation <<")" << endl;
-
-
-
-			di->updateLevelOfDetail( mAssetName, pLOD, mLocation);
-
-
-			break;
-
-
-		case 5:
-
-cout << "getLevelsOfDetail" << endl; 
-
-		//	cout << "getLevelsOfDetail( std::string assetName )" << endl;
-
-			cout<<"Please enter assetName "<<endl;
-			cin>>mAssetName;
-		//	cout<< "Calling getLevelsOfDetail(" << mAssetName << ")" << endl;
-
-
-
-	LODVector =  di->getLevelsOfDetail( mAssetName );
-
-	for(LODIterator = LODVector.begin(); 
-		LODIterator != LODVector.end();
-		LODIterator++)
-	{
-	    cout<< LODIterator - LODVector.begin() << " " << *LODIterator<<endl;    
-	}
-
-			break;
-
-		case 6:
-
-cout << "augmentAsset" << endl; 
-
-		//	cout<<"augmentAsset( std::string assetName, std::string metadataName )"<<endl;
-			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
-
-			cin>>mAssetName>>mMetadataName;
-		//	cout<< "Calling augmentAsset(" << mAssetName << " ," << mMetadataName <<")" << endl;
-
-	  di->augmentAsset( mAssetName, mMetadataName );
-
-			break;
-
-		case 7:
-			
-cout << "unaugmentAsset" << endl; 
-//cout<<"unaugmentAsset( std::string assetName, std::string metadataName )"<<endl;
-			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
-
-			cin>>mAssetName>>mMetadataName;
-		//	cout<< "Calling unaugmentAsset(" << mAssetName << " ," << mMetadataName <<")" << endl;
-
-		 di->unaugmentAsset( mAssetName, mMetadataName );
-
-			break;
-
-		case 8:
-
-			cout << "1) removeAsset" << endl;
-			cout << "2) addLevelOfDetail" << endl;
-			cout << "3) removeLevelOfDetail" << endl;
-			cout << "4) updateLevelOfDetail" << endl;
-			cout << "5) getLevelOfDetail" << endl;
-			cout << "6) augmentAsset" << endl;
-			cout << "7) unaugmentAsset" << endl;
-			cout << "8) Print Menu" << endl; 
-			cout << "9) Quit" << endl;
-
-			break; 
-
-		case 9:
-
-			cout << "Quitting CommandLineTest" << endl;
-			exit(0);
-
-			break;
-
-		
-
-			 
-
-		default:
-
-			cout << "Number not found" << endl;
-			continue;
-
-		}
-
-	}
-
-		return 0;
-	}
-*/
