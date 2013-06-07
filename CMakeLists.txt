@@ -153,7 +153,7 @@ add_executable (unit_test
 )
 
 add_executable (backend_test
-    ${BACKEND_TEST_gSOURCE}
+    ${BACKEND_TEST_SOURCE}
     ${BACKEND_TEST_HEADER}
     ${EXTERNAL_MODULE_INTERFACES}
     ${INTERNAL_MODULE_INTERFACES}
