@@ -57,6 +57,13 @@ void CommandLineTest::printMenu()
     cout << endl;
 }
 
+bool is_number(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 void CommandLineTest::handleInput(unsigned int& input)
 {
 
@@ -69,8 +76,15 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 	cout << "Enter a command:" << endl;
 
+	
+	string inputString; 
 
-	cin >> input;
+	cin >> inputString;
+
+	if (!is_number(inputString))
+	{
+		input = 8;
+	}
 
         if (input < options.size())
             cout << options[input] << endl << setfill('-') << setw(options[input].length()) << "-" << endl;
@@ -165,7 +179,7 @@ void CommandLineTest::handleInput(unsigned int& input)
 
 		default:
 
-			cout << "Number not found" << endl;
+			cout << "Command not found" << endl;
 		
 	}
 
