@@ -29,10 +29,11 @@ AssetMetadataMappingMemoryImpl::describedAssets( MetadataSet metadataTags )
         else // all but the first tag only keep intersecting assets
         {
             AssetSet intersection;
+            AssetTag::AssetTagComparator comparator;
 
             std::set_intersection (current_assets.begin(), current_assets.end(),
                 masm_it->second.begin(), masm_it->second.end(),
-                std::inserter(intersection,intersection.begin()));
+                std::inserter(intersection,intersection.begin()), comparator);
             current_assets = intersection;
         }
 
