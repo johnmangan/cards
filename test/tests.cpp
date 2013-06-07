@@ -9,12 +9,14 @@
 #include <AssetMetadataMappingDatabaseImpl.h>
 #include <RankedSearchImpl.h>
 #include <QueryInterfaceImpl.h>
+#include <DescriptionInterfaceImpl.h>
 
 #include "test-accessmanager.hpp"
 #include "test-assetlocator.hpp"
 #include "test-assetmetadatamapping.hpp"
 #include "test-queryinterface.hpp"
 #include "test-rankedsearch.hpp"
+#include "test-descriptioninterface.hpp"
 
 #include "cpptest.h"
 
@@ -174,6 +176,31 @@ main(int argc, char* argv[])
                     integration_query_interfaces[ qi ] = testUtilities;
                 }
 
+                 map< IDescription*, IDescriptionTestSuite::TestUtilities > unit_description_interfaces;
+                {
+                    IDescriptionTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "IDescription{ AccessManagerImpl }";
+                    testUtilities.accessManager = new AccessManagerImpl;
+
+                    unit_description_interfaces[ new IDescriptionImpl( testUtilities.accessManager ) ] = testUtilities;
+                }
+
+                 map< IDescription*, IDescriptionTestSuite::TestUtilities > integration_description_interfaces;
+                for (std::map< AccessManager*, AccessManagerTestSuite::TestUtilities >::iterator am_it = unit_access_managers.begin();
+                    unit_access_managers.end() != am_it;
+                    ++am_it)
+                {
+                    IDescriptionTestSuite::TestUtilities testUtilities;
+                    testUtilities.className = "IDescriptionImpl{ ";
+                    testUtilities.className += am_it->second.className;
+		    testUtilities.className += " }";
+                    testUtilities.accessManager = am_it->first;
+
+                    IDescription* di = new IDescriptionImpl( testUtilities.accessManager );
+
+                    integration_description_interfaces[ di ] = testUtilities;
+                }
+
 		// Demonstrates the ability to use multiple test suites
 		Test::Suite ts;
 
@@ -231,6 +258,23 @@ main(int argc, char* argv[])
                 {
                     ts.add(auto_ptr<Test::Suite>(new QueryInterfaceTestSuite( it->first, it->second )));
 		}
+
+       // + Description Interface Tests
+                for (map< IDescription*, IDescriptionTestSuite::TestUtilities >::iterator it = unit_description_interfaces.begin();
+                     unit_description_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new IDescriptionTestSuite( it->first, it->second )));
+		}
+
+
+                for (map< IDescription*, IDescriptionTestSuite::TestUtilities >::iterator it = integration_description_interfaces.begin();
+                     integration_description_interfaces.end() != it;
+                     ++it)
+                {
+                    ts.add(auto_ptr<Test::Suite>(new IDescriptionTestSuite( it->first, it->second )));
+		}
+
 
 		// Run the tests
 		auto_ptr<Test::Output> output(cmdline(argc, argv));
