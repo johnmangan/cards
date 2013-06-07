@@ -29,7 +29,7 @@ int main()
 {
 
 	int input;
-	string pAssetName, pOldAssetName, pNewAssetName, pMetadataName,pLocation;
+	string mAssetName, mOldAssetName, mNewAssetName, mMetadataName,mLocation;
 	unsigned int pLOD;
 
 	vector<string> LODVector;
@@ -65,12 +65,12 @@ int main()
 
 			cout << "Please enter assetName" << endl;
 
-			cin >> pAssetName;
+			cin >> mAssetName;
 
-		//	cout << "Calling removeAsset(" + pAssetName + ")" << endl;
+		//	cout << "Calling removeAsset(" + mAssetName + ")" << endl;
 
 
-		di->removeAsset( pAssetName);
+		di->removeAsset( mAssetName);
 
 			break;
 
@@ -83,12 +83,12 @@ cout << "addLevelOfDetail" << endl;
 
 			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
-			cin>>pAssetName>>pLOD>>pLocation;
+			cin>>mAssetName>>pLOD>>mLocation;
 
-		//	cout << "Calling addLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
+		//	cout << "Calling addLevelOfDetail(" << mAssetName <<"," << pLOD << "," << mLocation <<")" << endl;
 
 
-		di->addLevelOfDetail( pAssetName, pLOD, pLocation); 
+		di->addLevelOfDetail( mAssetName, pLOD, mLocation); 
 
 
 
@@ -104,12 +104,12 @@ cout << "removeLevelOfDetail" << endl;
 
 			cout<<"Please enter assetName and lod separated by space"<<endl;
 
-			cin>>pAssetName>>pLOD;
+			cin>>mAssetName>>pLOD;
 
-		//	cout << "Calling removeLevelOfDetail(" << pAssetName <<"," << pLOD << ")" << endl;
+		//	cout << "Calling removeLevelOfDetail(" << mAssetName <<"," << pLOD << ")" << endl;
 
 
-		 di->removeLevelOfDetail( pAssetName,pLOD);
+		 di->removeLevelOfDetail( mAssetName,pLOD);
 
 
 
@@ -125,13 +125,13 @@ cout << "updateLevelOfDetail" << endl;
 
 			cout<<"Please enter assetName, lod, and location separated by space"<<endl;
 
-			cin>>pAssetName>>pLOD>>pLocation;
+			cin>>mAssetName>>pLOD>>mLocation;
 
-		//	cout << "Calling updateLevelOfDetail(" << pAssetName <<"," << pLOD << "," << pLocation <<")" << endl;
+		//	cout << "Calling updateLevelOfDetail(" << mAssetName <<"," << pLOD << "," << mLocation <<")" << endl;
 
 
 
-			di->updateLevelOfDetail( pAssetName, pLOD, pLocation);
+			di->updateLevelOfDetail( mAssetName, pLOD, mLocation);
 
 
 			break;
@@ -144,12 +144,12 @@ cout << "getLevelsOfDetail" << endl;
 		//	cout << "getLevelsOfDetail( std::string assetName )" << endl;
 
 			cout<<"Please enter assetName "<<endl;
-			cin>>pAssetName;
-		//	cout<< "Calling getLevelsOfDetail(" << pAssetName << ")" << endl;
+			cin>>mAssetName;
+		//	cout<< "Calling getLevelsOfDetail(" << mAssetName << ")" << endl;
 
 
 
-	LODVector =  di->getLevelsOfDetail( pAssetName );
+	LODVector =  di->getLevelsOfDetail( mAssetName );
 
 	for(LODIterator = LODVector.begin(); 
 		LODIterator != LODVector.end();
@@ -167,10 +167,10 @@ cout << "augmentAsset" << endl;
 		//	cout<<"augmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
-			cin>>pAssetName>>pMetadataName;
-		//	cout<< "Calling augmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
+			cin>>mAssetName>>mMetadataName;
+		//	cout<< "Calling augmentAsset(" << mAssetName << " ," << mMetadataName <<")" << endl;
 
-	  di->augmentAsset( pAssetName, pMetadataName );
+	  di->augmentAsset( mAssetName, mMetadataName );
 
 			break;
 
@@ -180,10 +180,10 @@ cout << "unaugmentAsset" << endl;
 //cout<<"unaugmentAsset( std::string assetName, std::string metadataName )"<<endl;
 			cout<<"Please enter assetName and metadataName seperated by space"<<endl;
 
-			cin>>pAssetName>>pMetadataName;
-		//	cout<< "Calling unaugmentAsset(" << pAssetName << " ," << pMetadataName <<")" << endl;
+			cin>>mAssetName>>mMetadataName;
+		//	cout<< "Calling unaugmentAsset(" << mAssetName << " ," << mMetadataName <<")" << endl;
 
-		 di->unaugmentAsset( pAssetName, pMetadataName );
+		 di->unaugmentAsset( mAssetName, mMetadataName );
 
 			break;
 
