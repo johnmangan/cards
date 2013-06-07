@@ -18,7 +18,7 @@ public:
     };
 
     RankedSearchTestSuite( cards::RankedSearch* rankedSearch, TestUtilities testUtilities )
-        : mRankedSearch( rankedSearch ), mAssetMetadataMapping( testUtilities.accessManager->getAssetMetadataMapping() )
+        : mRankedSearch( rankedSearch ), mAccessManager( testUtilities.accessManager )
     {
         mClassMsg = std::string("Class: ") + testUtilities.className;
 
@@ -37,6 +37,7 @@ public:
         TEST_ADD(RankedSearchTestSuite::multipleTopRankedAssets)
         TEST_ADD(RankedSearchTestSuite::singleBestTopRankedAsset)
         TEST_ADD(RankedSearchTestSuite::differingMetadataWeightsTopRankedAsset)
+        TEST_ADD(RankedSearchTestSuite::cleanupAndReturnNoTopRankedAsset)
     }
 
     ~RankedSearchTestSuite()
@@ -51,10 +52,17 @@ private:
 
     cards::RankedSearch* mRankedSearch;
     std::string mClassMsg;
-    cards::AssetMetadataMapping* mAssetMetadataMapping;
+    cards::AccessManager* mAccessManager;
 
     std::vector< cards::AssetTag* > mAssetTags; // Assume size 4
     std::vector< cards::MetadataTag* > mMetadataTags; // Assume size 2
+
+    bool assetsEqual( cards::AssetTag* const& l, cards::AssetTag* const& r ) const
+    {
+        cards::AssetTag::AssetTagComparator assetCompare;
+
+        return !(assetCompare(l,r) || assetCompare(r,l));
+    }
 
     void noTopRankedAsset()
     {
@@ -67,39 +75,39 @@ private:
 
     void singleTopRankedAsset()
     {
-        mAssetMetadataMapping->augmentAsset( mAssetTags[1], mMetadataTags[0] );
+        mAccessManager->getAssetMetadataMapping()->augmentAsset( mAssetTags[1], mMetadataTags[0] );
 
         cards::RankedSearch::MetadataWeights metadataWeights;
         metadataWeights[ mMetadataTags[0] ] = 1;
 
-        TEST_ASSERT_MSG( mAssetTags[1] == mRankedSearch->topRankedAsset( metadataWeights ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( assetsEqual(mAssetTags[1], mRankedSearch->topRankedAsset( metadataWeights )), mClassMsg.c_str() );
     }
 
     void ignoreIrreleventAssets()
     {
-        mAssetMetadataMapping->augmentAsset( mAssetTags[2], mMetadataTags[1] );
+        mAccessManager->getAssetMetadataMapping()->augmentAsset( mAssetTags[2], mMetadataTags[1] );
 
         cards::RankedSearch::MetadataWeights metadataWeights;
         metadataWeights[ mMetadataTags[0] ] = 1;
 
-        TEST_ASSERT_MSG( mAssetTags[1] == mRankedSearch->topRankedAsset( metadataWeights ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( assetsEqual(mAssetTags[1], mRankedSearch->topRankedAsset( metadataWeights )), mClassMsg.c_str() );
     }
 
     void multipleTopRankedAssets()
     {
-        mAssetMetadataMapping->augmentAsset( mAssetTags[3], mMetadataTags[0] );
-        mAssetMetadataMapping->augmentAsset( mAssetTags[3], mMetadataTags[1] );
+        mAccessManager->getAssetMetadataMapping()->augmentAsset( mAssetTags[3], mMetadataTags[0] );
+        mAccessManager->getAssetMetadataMapping()->augmentAsset( mAssetTags[3], mMetadataTags[1] );
 
         cards::RankedSearch::MetadataWeights metadataWeights;
         metadataWeights[ mMetadataTags[0] ] = 1;
 
-        std::set< cards::AssetTag* > accepted;
+        cards::AssetMetadataMapping::AssetSet accepted;
         accepted.insert( mAssetTags[1] );
         accepted.insert( mAssetTags[3] );
 
         // Numerous tests for high confidence
         for (unsigned int i = 0; i < 20; ++i)
-            TEST_ASSERT_MSG( accepted.end() != accepted.find( mRankedSearch->topRankedAsset( metadataWeights ) ), mClassMsg.c_str() );
+            TEST_ASSERT_MSG( accepted.end() != accepted.find( mRankedSearch->topRankedAsset( metadataWeights )), mClassMsg.c_str() );
     }
 
     void singleBestTopRankedAsset()
@@ -108,7 +116,7 @@ private:
         metadataWeights[ mMetadataTags[0] ] = 1;
         metadataWeights[ mMetadataTags[1] ] = 1;
 
-        TEST_ASSERT_MSG( mAssetTags[3] == mRankedSearch->topRankedAsset( metadataWeights ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( assetsEqual(mAssetTags[3], mRankedSearch->topRankedAsset( metadataWeights )), mClassMsg.c_str() );
     }
 
     void differingMetadataWeightsTopRankedAsset()
@@ -119,7 +127,21 @@ private:
 
         // Numerous tests for high confidence
         for (unsigned int i = 0; i < 20; ++i)
-            TEST_ASSERT_MSG( mAssetTags[3] == mRankedSearch->topRankedAsset( metadataWeights ), mClassMsg.c_str() );
+            TEST_ASSERT_MSG( assetsEqual(mAssetTags[3], mRankedSearch->topRankedAsset( metadataWeights )), mClassMsg.c_str() );
+    }
+
+    void cleanupAndReturnNoTopRankedAsset()
+    {
+        for (unsigned int i = 0; i < mAssetTags.size(); ++i)
+            mAccessManager->getAssetMetadataMapping()->removeAsset( mAssetTags[i] );
+
+        cards::RankedSearch::MetadataWeights metadataWeights;
+
+        for (unsigned int i = 0; i < mMetadataTags.size(); ++i)
+            metadataWeights[ mMetadataTags[i] ] = 1;
+
+        TEST_ASSERT_MSG( NULL == mRankedSearch->topRankedAsset( metadataWeights ),
+            (mClassMsg + "\t failed to cleanup and return a NULL asset").c_str() );
     }
 };
 

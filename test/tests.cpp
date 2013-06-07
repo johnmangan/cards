@@ -86,7 +86,7 @@ main(int argc, char* argv[])
 
                 map< AssetMetadataMapping*, string > unit_asset_metadata_mappings;
                 unit_asset_metadata_mappings[ new AssetMetadataMappingMemoryImpl ] = "AssetMetadataMappingMemoryImpl";
-                //unit_asset_metadata_mappings[ new AssetMetadataMappingDatabaseImpl ] = "AssetMetadataMappingDatabaseImpl";
+                unit_asset_metadata_mappings[ new AssetMetadataMappingDatabaseImpl ] = "AssetMetadataMappingDatabaseImpl";
 
                 map< RankedSearch*, RankedSearchTestSuite::TestUtilities > unit_ranked_searches;
                 {
@@ -166,7 +166,7 @@ main(int argc, char* argv[])
                     QueryInterfaceTestSuite::TestUtilities testUtilities;
                     testUtilities.className = "QueryInterfaceImpl{ ";
                     testUtilities.className += am_it->second.className;
-		    testUtilities.className += " }";
+                    testUtilities.className += " }";
                     testUtilities.accessManager = am_it->first;
 
                     IQuery* qi = new IQueryImpl( testUtilities.accessManager );
