@@ -1,8 +1,7 @@
-#include <DescriptionInterfaceImpl.h>
+#include <DescriptionInterface.h>
 
 #include <AssetTagImpl.h>
-
-#include <iostream>
+#include <MetadataTagImpl.h>
 
 using namespace std;
 
@@ -23,12 +22,10 @@ public:
       mAccessManager( testUtilities.accessManager )
     {
         mClassMsg = std::string("Class: ") + testUtilities.className;
-        assetName0 = "foo";
+        mAssetName = "foo";
         location0 = "bar0";
         location1 = "bar1";
         
-        mAssetTag = new cards::AssetTagImpl(assetName0);
-
         mt0_s = "foo0";
         mt1_s = "foo1";
         mt2_s = "foo2";
@@ -54,7 +51,7 @@ public:
 
         TEST_ADD(IDescriptionTestSuite::augmentMD1toAT1)      
         TEST_ADD(IDescriptionTestSuite::unaugmentMD1toAT1)     
-        //TEST_ADD(IDescriptionTestSuite::augmentMany)     
+        TEST_ADD(IDescriptionTestSuite::augmentMany)     
         TEST_ADD(IDescriptionTestSuite::unaugmentMany)     
         TEST_ADD(IDescriptionTestSuite::removeAsset)     
     }
@@ -62,7 +59,13 @@ public:
 
     ~IDescriptionTestSuite()
     {
-        delete mAssetTag;
+        delete mt0;
+        delete mt1;
+        delete mt2;
+        delete mt3;
+        delete at1;
+        delete at2;
+        delete at3;
     }
         
 private:
@@ -71,7 +74,7 @@ private:
     cards::AccessManager* mAccessManager;
 
     std::string mClassMsg;
-    std::string assetName0;
+    std::string mAssetName;
     std::string location0;
     std::string location1;
 
@@ -93,57 +96,55 @@ private:
     cards::AssetTagImpl* at2    ;
     cards::AssetTagImpl* at3    ;
 
-    cards::AssetTag* mAssetTag;
-
     void addAndRetrieveLOD()
     {
-        mIDescription->addLevelOfDetail(assetName0, 0, location0 );
+        mIDescription->addLevelOfDetail(mAssetName, 0, location0 );
 
-        cards::AssetLocator::Locations expected;
+        std::vector< std::string > expected;
         expected.push_back( location0 );
 
-        TEST_ASSERT_MSG( expected == mAccessManager->getAssetLocator()->getFilepath( mAssetTag ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( expected == mIDescription->viewLevelsOfDetail( mAssetName ), mClassMsg.c_str() );
     }
 
     void addAndRetrieveSecondLOD()
     {
-        mIDescription->addLevelOfDetail( assetName0, 1, location1 );
+        mIDescription->addLevelOfDetail( mAssetName, 1, location1 );
 
-        cards::AssetLocator::Locations expected;
+        std::vector< std::string > expected;
         expected.push_back( location0 );
         expected.push_back( location1 );
 
-        TEST_ASSERT_MSG( expected == mAccessManager->getAssetLocator()->getFilepath( mAssetTag ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( expected == mIDescription->viewLevelsOfDetail( mAssetName ), mClassMsg.c_str() );
     }
 
     void removeAndRetrieveLOD()
     {
-        mIDescription->removeLevelOfDetail( assetName0, 1 );
+        mIDescription->removeLevelOfDetail( mAssetName, 1 );
 
-        cards::AssetLocator::Locations expected;
+        std::vector< std::string > expected;
         expected.push_back( location0 );
 
-        TEST_ASSERT_MSG( expected == mAccessManager->getAssetLocator()->getFilepath( mAssetTag ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( expected == mIDescription->viewLevelsOfDetail( mAssetName ), mClassMsg.c_str() );
     }
 
     void updateAndRetrieveLOD()
     {
-        mIDescription->updateLevelOfDetail( assetName0, 0, location1 );
+        mIDescription->updateLevelOfDetail( mAssetName, 0, location1 );
 
-        cards::AssetLocator::Locations expected;
+        std::vector< std::string > expected;
         expected.push_back( location1 );
 
-        TEST_ASSERT_MSG( expected == mAccessManager->getAssetLocator()->getFilepath( mAssetTag ), mClassMsg.c_str() );
+        TEST_ASSERT_MSG( expected == mIDescription->viewLevelsOfDetail( mAssetName ), mClassMsg.c_str() );
     }
 
     void removeToCleanupAsset()
     {
-        TEST_ASSERT_MSG( !mAccessManager->getAssetLocator()->getFilepath( mAssetTag ).empty(),
+        TEST_ASSERT_MSG( !mIDescription->viewLevelsOfDetail( mAssetName ).empty(),
             (mClassMsg + ":\t Missing Asset").c_str() );
 
-        mIDescription->removeAsset(assetName0);
+        mIDescription->removeAsset(mAssetName);
 
-        TEST_ASSERT_MSG( mAccessManager->getAssetLocator()->getFilepath( mAssetTag ).empty(),
+        TEST_ASSERT_MSG( mIDescription->viewLevelsOfDetail( mAssetName ).empty(),
             (mClassMsg + ":\t Failed to remove asset").c_str() );
     }
 
@@ -195,7 +196,7 @@ private:
        mIDescription->augmentAsset(at3_s,mt2_s);
 
        TEST_ASSERT_MSG( mAccessManager->getAssetMetadataMapping()->describedAssets(inputMetadataSet) == expectedAssetSet,
-            (mClassMsg + ":\t Failed to return proper AssetTag 3 Size").c_str() );
+            (mClassMsg + ":\t Failed to return proper AssetTag 3").c_str() );
 
     }
 

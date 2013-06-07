@@ -179,7 +179,7 @@ main(int argc, char* argv[])
                  map< IDescription*, IDescriptionTestSuite::TestUtilities > unit_description_interfaces;
                 {
                     IDescriptionTestSuite::TestUtilities testUtilities;
-                    testUtilities.className = "IDescription{ AccessManagerImpl }";
+                    testUtilities.className = "IDescriptionImpl{ AccessManagerImpl }";
                     testUtilities.accessManager = new AccessManagerImpl;
 
                     unit_description_interfaces[ new IDescriptionImpl( testUtilities.accessManager ) ] = testUtilities;
