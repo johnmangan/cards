@@ -5,13 +5,11 @@
  *      Author: ed
  */
 
-#include "DescriptionInterface.h"
-#include "DescriptionInterfaceImpl.h"
+#include <AccessManagerImpl.h>
+#include <DescriptionInterfaceImpl.h>
 
-#include "AccessManager.h"
-#include "AccessManagerImpl.h"
 
-#include "CommandLineTest.h"
+#include <CommandLineTest.h>
 
 
 #include <stdio.h>
@@ -19,11 +17,175 @@
 #include <sstream>
 #include <string>
 #include <stdlib.h> 
-
 #include <vector> 
 
 using namespace cards;
 using namespace std; 
+
+CommandLineTest::CommandLineTest( IDescription* iDesc )
+: di( iDesc )
+{
+}
+
+void CommandLineTest::printMenu()
+{
+
+	cout << "1) remove Asset" << "\t" << "Get LODs of Assets" <<  endl;
+	cout << "2) add LOD to Asset" << endl;
+	cout << "3) remove LOD from Asset" << endl;
+	cout << "4) update LOD of Asset" << endl;
+	cout << "5) getLevelOfDetail" << endl;
+	cout << "6) augmentAsset" << endl;
+	cout << "7) unaugmentAsset" << endl;
+	//cout << "8) Print Menu" << endl; 
+	cout << "8) Quit" << endl;
+}
+
+void CommandLineTest::handleInput(int & input)
+{
+
+	string mAssetName, mOldAssetName, mNewAssetName, mMetadataName,mLocation;
+	unsigned int pLOD;
+
+	vector<string> LODVector;
+
+        //AccessManagerImpl* am = new AccessManagerImpl ();
+
+	cout << "Enter a command:" << endl;
+
+
+	cin >> input;
+
+	switch(input)
+	{
+		case 1:
+
+		cout << "removeAsset" << endl;
+
+		cout << "Please enter assetName" << endl;
+
+		cin >> mAssetName;
+
+		di->removeAsset( mAssetName);
+
+		break;
+
+		case 2:
+
+		cout << "addLevelOfDetail" << endl; 
+
+		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
+
+		cin>>mAssetName>>pLOD>>mLocation;
+
+cout << di <<  endl; 
+		di->addLevelOfDetail( mAssetName, pLOD, mLocation); 
+
+
+
+		break;
+
+		case 3:
+
+		cout << "removeLevelOfDetail" << endl; 
+
+		cout<<"Please enter assetName and lod separated by space"<<endl;
+
+		cin>>mAssetName>>pLOD;
+
+	
+		 di->removeLevelOfDetail( mAssetName,pLOD);
+
+		break;
+
+
+		case 4:
+
+		cout << "updateLevelOfDetail" << endl; 
+
+			
+		cout<<"Please enter assetName, lod, and location separated by space"<<endl;
+
+		cin>>mAssetName>>pLOD>>mLocation;
+
+		di->updateLevelOfDetail( mAssetName, pLOD, mLocation);
+
+		break;
+
+		case 5:
+
+		cout << "getLevelsOfDetail" << endl; 
+
+		cout<<"Please enter assetName "<<endl;
+		cin>>mAssetName;
+
+
+
+		LODVector =  di->getLevelsOfDetail( mAssetName );
+
+
+cout << di << "\t" << LODVector.size() << endl; 
+		for(unsigned int i = 0; i < LODVector.size(); ++i)
+		{
+		    cout<< i << ": " << LODVector[i]<<endl;    
+		}
+
+		break;
+
+		case 6:
+
+		cout << "augmentAsset" << endl; 
+
+		cout<<"Please enter assetName and metadataName seperated by space"<<endl;
+
+		cin>>mAssetName>>mMetadataName;
+
+		di->augmentAsset( mAssetName, mMetadataName );
+
+		break;
+
+		case 7:
+			
+		cout << "unaugmentAsset" << endl; 
+		
+cout<<"Please enter assetName and metadataName seperated by space"<<endl;
+
+		cin>>mAssetName>>mMetadataName;
+		
+		di->unaugmentAsset( mAssetName, mMetadataName );
+
+		break;
+		
+		case 8:
+
+			cout << "Quitting CommandLine" << endl;
+			exit(0);
+
+			break; 
+
+		default:
+
+			cout << "Number not found" << endl;
+		
+	}
+
+}
+
+int main()
+{
+	CommandLineTest command_line_test( new IDescriptionImpl() ); 
+
+	int input; 
+	//int QuitChoice = 9; 
+	while(true)
+	{
+	    command_line_test.printMenu();
+	    command_line_test.handleInput(input); 
+	} 
+}
+
+
+/*
 
 int main()
 {
@@ -223,4 +385,4 @@ cout << "unaugmentAsset" << endl;
 
 		return 0;
 	}
-
+*/

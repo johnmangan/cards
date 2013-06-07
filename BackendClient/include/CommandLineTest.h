@@ -1,15 +1,18 @@
 #ifndef COMMANDLINETEST_H_
 #define COMMANDLINETEST_H_
 
-#include <string>
-#include <vector>
+#include <DescriptionInterface.h>
 
 namespace cards {
 
 class CommandLineTest
 {
 public:
-
+    CommandLineTest( IDescription* iDesc );
+    void printMenu();
+    void handleInput( int& input );
+private:
+    IDescription* di;
 };
 
 }
