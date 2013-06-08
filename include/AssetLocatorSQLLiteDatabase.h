@@ -33,6 +33,9 @@ namespace cards
     open(std::string filename);
 
   private:
+    getMaxLOD(std::string assetName);
+    updateLODsForInsert(std::string name, int & lod);
+    updateLODsForRemove(std::string name, int lod);
     sqlite3* database;
   };
 }
