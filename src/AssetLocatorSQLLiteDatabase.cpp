@@ -19,7 +19,7 @@ namespace cards
     void 
     AssetLocatorSQLLiteDatabase::insert(std::string name, int lod, std::string location)
     {
-      lod = updateLODsForInsert(name, lod);
+      updateLODsForInsert(name, lod);
 
       sqlite3_stmt* statement; 
       sqlite3_prepare_v2(database, stmt_insert.c_str(), -1, &statement, 0);
@@ -69,12 +69,11 @@ namespace cards
     }
 
     void
-    AssetLocatorSQLLiteDatabase::remove(std::string name, int lod)
+    AssetLocatorSQLLiteDatabase::remove(std::string name)
     {
       sqlite3_stmt* statement; 
-      sqlite3_prepare_v2(database, stmt_delete_id.c_str(), -1, &statement, 0);
+      sqlite3_prepare_v2(database, stmt_delete_noid.c_str(), -1, &statement, 0);
       sqlite3_bind_text(statement, 1, name.c_str(), name.size(), SQLITE_STATIC);
-      sqlite3_bind_int(statement, 2, lod);
 
       int result = sqlite3_step(statement);
 
@@ -82,8 +81,6 @@ namespace cards
 	std::cerr << "Error deleting from database" << std::endl;
 
       sqlite3_finalize(statement);
-
-      updateLODsForRemove(name, lod);
     }
 
     void
@@ -100,6 +97,8 @@ namespace cards
 	std::cerr << "Error deleting from database" << std::endl;
 
       sqlite3_finalize(statement);
+
+      updateLODsForRemove(name, lod);
     }
 
     void
@@ -141,7 +140,7 @@ namespace cards
       int LOD = -1;
       sqlite3_stmt* statement; 
 
-      if(sqlite3_prepare_v2(database, stmt_select_max_LOD.c_str(), -1, &statement, 0) == SQLITE_OK)
+      if(sqlite3_prepare_v2(database, stmt_select_max_lod.c_str(), -1, &statement, 0) == SQLITE_OK)
       {
           sqlite3_bind_text(statement, 1, assetName.c_str(), assetName.size(), SQLITE_STATIC);
 	  int cols = sqlite3_column_count(statement);
@@ -162,13 +161,12 @@ namespace cards
     AssetLocatorSQLLiteDatabase::updateLODsForInsert(std::string name, int & lod)
     {
       int maxLOD = getMaxLOD(name);
+      
+      std::cerr << "THIS is maxLOD " << maxLOD << std::endl;
 
       //the asset does not exist in the db
-      if (maxLOD == -1)
-	lod = 0; //return the LOD as 0
-
       //adding the highest LOD val into the database
-      else if(lod > maxLOD)
+      if(lod > maxLOD)
 	lod = maxLOD + 1;
 
       //inserting into the front or middle
@@ -190,6 +188,7 @@ namespace cards
           }
         
 	  sqlite3_finalize(statement);
+	}
       }
     }
 
@@ -199,7 +198,8 @@ namespace cards
       int maxLOD = getMaxLOD(name);
 
       if (!(maxLOD == -1 || lod > maxLOD))
-	//increment all LOD vals larger than the lod 
+      {
+  	//increment all LOD vals larger than the lod 
 	sqlite3_stmt* statement; 
 
 	if(sqlite3_prepare_v2(database, stmt_decr_LOD_on_remove.c_str(), -1, &statement, 0) == SQLITE_OK)
@@ -215,6 +215,8 @@ namespace cards
           }
         
 	  sqlite3_finalize(statement);
+	}
+      }
     }
 }
 
